@@ -13,11 +13,38 @@
     </Page.Resources>
 
     <RelativePanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock Name="logo" 
+                   Text="TELEPUZ"
+                   Style="{StaticResource logoStyle}" 
+                   RelativePanel.AlignHorizontalCenterWithPanel ="True" 
+                   Margin="0, 100, 0, 0"/>
 
-        <TextBlock Name="logo" Text="TELEPUZ" Style="{StaticResource logoStyle}" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,100,0,0"/>
-        <TextBlock Name="slogan" Text="Але, ну че там с деньгами?" Style="{StaticResource sloganStyle}" RelativePanel.Below="logo" RelativePanel.AlignHorizontalCenterWithPanel="True" />
-        <TextBlock Name="NicknameHint" Text="Nickname" Style="{StaticResource hintStyle}" RelativePanel.AlignLeftWith="slogan" RelativePanel.Below="slogan" Margin="0, 30, 0, 0"/>
-        <TextBox Name="" Style=""
+        <TextBlock Name="slogan"
+                   Text="Але, ну че там с деньгами?" 
+                   Style="{StaticResource sloganStyle}" 
+                   RelativePanel.Below="logo" 
+                   RelativePanel.AlignHorizontalCenterWithPanel="True" />
 
+        <TextBox Name="nicknameInput" 
+                 MaxLength="30" 
+                 Header="Nickname" PlaceholderText="Кто мы с тобой орлы или вороны?"
+                 Style="{StaticResource inputStyle}" 
+                 RelativePanel.AlignHorizontalCenterWithPanel="True" 
+                 RelativePanel.Below="slogan" Margin="0,30,0,0"/>
+
+        <Button Name="enterButton" 
+                Content="Войти" 
+                Style="{StaticResource enterButtonStyle}" 
+                RelativePanel.AlignHorizontalCenterWithPanel="True" 
+                RelativePanel.Below="nicknameInput" 
+                Margin="0, 40, 0, 0"/>
+
+        <TextBlock Name="authors" 
+                   Style="{StaticResource authorsStyle}" 
+                   RelativePanel.AlignHorizontalCenterWithPanel="True" 
+                   RelativePanel.AlignBottomWithPanel="True" 
+                   Margin="0,0,0,30">
+            Made for fun and test UWP by <LineBreak/> undefined and kerjen
+        </TextBlock>
     </RelativePanel>
 </Page>

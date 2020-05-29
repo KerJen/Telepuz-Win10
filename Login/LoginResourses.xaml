@@ -9,7 +9,7 @@
     </Style>
 
     <Style x:Key="sloganStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value ="#000000"/>
+        <Setter Property="Foreground" Value ="#464646"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Light.ttf#Open Sans"/>
         <Setter Property="FontSize" Value="30"/>
     </Style>
@@ -17,9 +17,65 @@
     <Style x:Key="hintStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value ="#BDBDBD"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="18"/>
     </Style>
-  
+
+    <Style x:Key="inputStyle" TargetType="TextBox">
+        <Setter Property="SelectionHighlightColor" Value="#00BCD4"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <StackPanel>
+                        <ContentPresenter Content="{TemplateBinding Header}" Foreground="#BDBDBD" FontSize="18" FontFamily="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans" Margin="0,0,0,10"/>
+                        <Border CornerRadius="5" BorderThickness="1" BorderBrush="#BDBDBD">
+                            <ContentPresenter x:Name="ContentElement" MaxWidth="450" Width="450" Padding="20,18,0,18" Foreground="#464646" FontSize="18" FontFamily="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
+                        </Border>
+                    </StackPanel>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    
+
+    <Style x:Key="enterButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter Name="ButtonLayoutGrid"  Content="{TemplateBinding Content}" Padding="85,12,85,12" Width="auto" Background="#00BCD4" CornerRadius="10" Foreground="White" FontSize="20" FontFamily="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+
+                                <VisualState x:Name="Normal">
+                                    <Storyboard TargetName="ButtonLayoutGrid" TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                        <ColorAnimation Duration="0:0:0.100" To="#00BCD4" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard TargetName="ButtonLayoutGrid" TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                        <ColorAnimation Duration="0:0:0.100" To="#21C2D7" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation TargetName="ButtonLayoutGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="authorsStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="#BDBDBD"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
 </ResourceDictionary>

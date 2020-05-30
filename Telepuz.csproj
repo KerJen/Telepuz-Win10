@@ -116,9 +116,19 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\ApiOptions.cs" />
+    <Compile Include="API\Callback.cs" />
+    <Compile Include="API\MessageSerializer.cs" />
+    <Compile Include="API\Model\DTO\Send\NicknameDataSend.cs" />
+    <Compile Include="API\Model\Request\Request.cs" />
+    <Compile Include="API\Model\Request\RequestInfo.cs" />
+    <Compile Include="API\Model\Response\Response.cs" />
+    <Compile Include="API\Model\Response\ResponseInfo.cs" />
+    <Compile Include="API\TelepuzWebSocketService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ByteHelper.cs" />
     <Compile Include="Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -154,14 +164,20 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MessagePack">
+      <Version>2.1.115</Version>
+    </PackageReference>
+    <PackageReference Include="MetroLog">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
-    <PackageReference Include="MsgPack.Cli">
-      <Version>1.0.1</Version>
-    </PackageReference>
     <PackageReference Include="System.Net.WebSockets.Client">
       <Version>4.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="WebSocketSharp">
+      <Version>1.0.3-rc11</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +191,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Fonts\OpenSans-Light.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="API\Model\DTO\Recieve\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

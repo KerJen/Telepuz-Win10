@@ -37,7 +37,7 @@
                 Style="{StaticResource enterButtonStyle}" 
                 RelativePanel.AlignHorizontalCenterWithPanel="True" 
                 RelativePanel.Below="nicknameInput" 
-                Margin="0, 40, 0, 0"/>
+                Margin="0, 40, 0, 0" Click="enterButton_Click"/>
 
         <TextBlock Name="authors" 
                    Style="{StaticResource authorsStyle}" 

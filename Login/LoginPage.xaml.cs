@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Telepuz.API;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Telepuz.API.Model.DTO.Send;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
 
@@ -25,6 +15,34 @@ namespace Telepuz
         public MainPage()
         {
             this.InitializeComponent();
+            InitClient();
+        }
+
+        static void InitClient()
+        {
+            var client = TelepuzWebSocketService.Client;
+
+            client.Connect();
+
+
+            // Проверка методов
+
+            client.On("auth.login", (response) =>
+            {
+                var t = response.Result;
+            });
+
+
+            client.Request("auth.login", new NicknameDataSend()
+            {
+                Nickname = "KerJen"
+            });
+
+        }
+
+        private void enterButton_Click(object sender, RoutedEventArgs e)
+        {
+            nicknameInput.IsEnabled = false;
         }
     }
 }

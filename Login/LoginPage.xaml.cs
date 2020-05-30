@@ -27,7 +27,7 @@ namespace Telepuz
 
             // Проверка методов
 
-            client.On("auth.login", (response) =>
+            client.Once("auth.login", (response) =>
             {
                 var t = response.Result;
             });

@@ -118,6 +118,43 @@ namespace Telepuz.API
         }
 
         /// <summary>
+        /// Создает одноразовый callback, который будет передавать data и result, и записывает его в словарь callback'ов
+        /// </summary>
+        /// <typeparam name="T">Тип объекта десериализации</typeparam>
+        /// <param name="methodName">Название метода</param>
+        /// <param name="callback">Callback результата прослушивания метода</param>
+        public void Once<T>(string methodName, Action<Response> callback)
+        {
+            _listenersPool.Add(methodName, new Callback()
+            {
+                Type = typeof(T),
+                Action = (response) =>
+                {
+                    _listenersPool.Remove(methodName);
+                    callback((Response)response);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Создает одноразовый callback, который будет передавать только result, и записывает его в словарь callback'ов
+        /// </summary>
+        /// <param name="methodName">Название метода</param>
+        /// <param name="callback">Callback результата прослушивания метода</param>
+        public void Once(string methodName, Action<Response> callback)
+        {
+            _listenersPool.Add(methodName, new Callback()
+            {
+                Type = null,
+                Action = (response) =>
+                {
+                    _listenersPool.Remove(methodName);
+                    callback((Response)response);
+                }
+            });
+        }
+
+        /// <summary>
         /// Делает запрос на сервер
         /// </summary>
         /// <typeparam name="T">Тип объекта запроса</typeparam>

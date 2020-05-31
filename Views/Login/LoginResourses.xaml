@@ -31,7 +31,7 @@
                             <ContentPresenter x:Name="ContentElement" MaxWidth="450" Width="450" Padding="20,18,0,18" Foreground="#464646" FontSize="18" FontFamily="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
                         </Border>
                     </StackPanel>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -47,7 +47,13 @@
 
                                 <VisualState x:Name="Normal">
                                     <Storyboard TargetName="ButtonLayoutGrid" TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                        <ColorAnimation Duration="0:0:0.100" To="#00BCD4" />
+                                        <ColorAnimation Duration="0:0:0.100" To="#00BCD4"/>
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard TargetName="ButtonLayoutGrid" TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                        <ColorAnimation Duration="0:0:0.100" To="#D1D1D1"></ColorAnimation>
                                     </Storyboard>
                                 </VisualState>
 

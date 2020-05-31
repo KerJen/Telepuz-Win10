@@ -1,23 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.Security.Authentication.Web.Core;
 using MessagePack;
 using MetroLog;
-using Telepuz.API.Model;
-using Telepuz.API.Model.DTO.Send;
-using Telepuz.API.Model.Request;
-using Telepuz.API.Model.Response;
-using Telepuz.Helpers;
+using Telepuz.Models.Network.Request;
 using WebSocketSharp;
 
-namespace Telepuz.API
+namespace Telepuz.Models.Network
 {
     // TODO: Перевести на DI Stiletto Library вместо стандартного синглтона
     internal class TelepuzWebSocketService
@@ -94,12 +83,12 @@ namespace Telepuz.API
         /// <typeparam name="T">Тип объекта десериализации</typeparam>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void On<T>(string methodName, Action<Response> callback)
+        public void On<T>(string methodName, Action<Response.Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
                 Type = typeof(T),
-                Action = (response) => callback((Response)response)
+                Action = (response) => callback((Response.Response)response)
             });
         }
 
@@ -108,12 +97,12 @@ namespace Telepuz.API
         /// </summary>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void On(string methodName, Action<Response> callback)
+        public void On(string methodName, Action<Response.Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
                 Type = null,
-                Action = (response) => callback((Response)response)
+                Action = (response) => callback((Response.Response)response)
             });
         }
 
@@ -123,7 +112,7 @@ namespace Telepuz.API
         /// <typeparam name="T">Тип объекта десериализации</typeparam>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void Once<T>(string methodName, Action<Response> callback)
+        public void Once<T>(string methodName, Action<Response.Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
@@ -131,7 +120,7 @@ namespace Telepuz.API
                 Action = (response) =>
                 {
                     _listenersPool.Remove(methodName);
-                    callback((Response)response);
+                    callback((Response.Response)response);
                 }
             });
         }
@@ -141,7 +130,7 @@ namespace Telepuz.API
         /// </summary>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void Once(string methodName, Action<Response> callback)
+        public void Once(string methodName, Action<Response.Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
@@ -149,7 +138,7 @@ namespace Telepuz.API
                 Action = (response) =>
                 {
                     _listenersPool.Remove(methodName);
-                    callback((Response)response);
+                    callback((Response.Response)response);
                 }
             });
         }

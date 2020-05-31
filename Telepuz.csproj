@@ -116,20 +116,23 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="API\ApiOptions.cs" />
-    <Compile Include="API\Callback.cs" />
-    <Compile Include="API\MessageSerializer.cs" />
-    <Compile Include="API\Model\DTO\Send\NicknameDataSend.cs" />
-    <Compile Include="API\Model\Request\Request.cs" />
-    <Compile Include="API\Model\Request\RequestInfo.cs" />
-    <Compile Include="API\Model\Response\Response.cs" />
-    <Compile Include="API\Model\Response\ResponseInfo.cs" />
-    <Compile Include="API\TelepuzWebSocketService.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Models\Business\Results.cs" />
+    <Compile Include="Models\Network\ApiOptions.cs" />
+    <Compile Include="Models\Network\Callback.cs" />
+    <Compile Include="Models\Network\MessageSerializer.cs" />
+    <Compile Include="Models\Business\Model\Nickname\NicknameRequestDTO.cs" />
+    <Compile Include="Models\Network\Request\Request.cs" />
+    <Compile Include="Models\Network\Request\RequestInfo.cs" />
+    <Compile Include="Models\Network\Response\Response.cs" />
+    <Compile Include="Models\Network\Response\ResponseInfo.cs" />
+    <Compile Include="Models\Network\TelepuzWebSocketService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ByteHelper.cs" />
-    <Compile Include="Login\LoginPage.xaml.cs">
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,11 +157,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Login\LoginPage.xaml">
+    <Page Include="Views\Login\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Login\LoginResourses.xaml">
+    <Page Include="Views\Login\LoginResourses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -172,6 +175,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLightLibs">
+      <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="System.Net.WebSockets.Client">
       <Version>4.3.2</Version>
@@ -192,9 +198,7 @@
   <ItemGroup>
     <Content Include="Assets\Fonts\OpenSans-Light.ttf" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\Model\DTO\Recieve\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

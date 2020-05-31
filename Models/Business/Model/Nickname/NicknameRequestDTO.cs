@@ -1,9 +1,9 @@
 ﻿using MessagePack;
 
-namespace Telepuz.API.Model.DTO.Send
+namespace Telepuz.Models.Business.Model.Nickname
 {
     [MessagePackObject()]
-    public class NicknameDataSend
+    public class NicknameRequestDTO
     {
         [Key("nickname")]
         public string Nickname { get; set; }

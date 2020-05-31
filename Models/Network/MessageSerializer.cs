@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Devices.Display.Core;
 using MessagePack;
-using Telepuz.API.Model;
-using Telepuz.API.Model.Request;
-using Telepuz.API.Model.Response;
-using Telepuz.Helpers;
+using Telepuz.Models.Network.Request;
+using Telepuz.Models.Network.Response;
 
-namespace Telepuz.API
+namespace Telepuz.Models.Network
 {
     public static class MessageSerializer
     {
@@ -79,7 +71,7 @@ namespace Telepuz.API
         /// <param name="bytes">Байты ответа</param>
         /// <exception cref="MessagePackSerializationException">Вызвается тогда, когда формат ответа не совпадает с форматом ответа сервера</exception>
         /// <returns>Десериализированная информация об ответе и десериализированный ответ</returns>
-        public static Response DeserializeResponse(Type type, byte[] bytes)
+        public static Response.Response DeserializeResponse(Type type, byte[] bytes)
         {
             #region Разбор MsgPack по элементам и выборка нужных
 
@@ -97,7 +89,7 @@ namespace Telepuz.API
 
             #region Получение поля "data" и подготовка Response
 
-            Response response;
+            Response.Response response;
 
             if (type != null)
             {
@@ -111,7 +103,7 @@ namespace Telepuz.API
                 Buffer.BlockCopy(bytes, reader.Position.GetInteger() - 1, dataBytes, 0, dataBytes.Length);
 
                 // Создание объекта ответа с результатом и объектом десериализации
-                response = new Response()
+                response = new Response.Response()
                 {
                     Result = result,
                     Data = MessagePackSerializer.Deserialize(type, dataBytes)
@@ -119,7 +111,7 @@ namespace Telepuz.API
             }
             else
             {
-                response = new Response()
+                response = new Response.Response()
                 {
                     Result = result,
                 };

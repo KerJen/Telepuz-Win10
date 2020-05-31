@@ -1,6 +1,6 @@
 ﻿using MessagePack;
 
-namespace Telepuz.API.Model.Request
+namespace Telepuz.Models.Network.Request
 {
     [MessagePackObject]
     public class Request<T>

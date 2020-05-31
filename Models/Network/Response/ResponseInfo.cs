@@ -1,9 +1,9 @@
 ﻿using MessagePack;
 
-namespace Telepuz.API.Model.Request
+namespace Telepuz.Models.Network.Response
 {
     [MessagePackObject]
-    public class RequestInfo
+    public class ResponseInfo
     {
         [Key("method_name")]
         public string MethodName { get; set; }

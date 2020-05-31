@@ -8,10 +8,28 @@
         <Setter Property="FontSize" Value="100"/>
     </Style>
 
-    <Style x:Key="sloganStyle" TargetType="TextBlock">
+    <Style x:Key="sloganStyle" TargetType="Button">
         <Setter Property="Foreground" Value ="#464646"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Light.ttf#Open Sans"/>
         <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter Name="ButtonLayoutGrid" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation TargetName="ButtonLayoutGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentPresenter>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="hintStyle" TargetType="TextBlock">
@@ -53,7 +71,7 @@
 
                                 <VisualState x:Name="Disabled">
                                     <Storyboard TargetName="ButtonLayoutGrid" TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                        <ColorAnimation Duration="0:0:0.100" To="#D1D1D1"></ColorAnimation>
+                                        <ColorAnimation Duration="0:0:0.100" To="#D1D1D1" />
                                     </Storyboard>
                                 </VisualState>
 

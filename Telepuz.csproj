@@ -117,6 +117,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Models\Business\Results.cs" />
     <Compile Include="Models\Network\ApiOptions.cs" />
     <Compile Include="Models\Network\Callback.cs" />
@@ -143,6 +144,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\ale.mp3" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

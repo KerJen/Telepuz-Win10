@@ -21,19 +21,20 @@
                    RelativePanel.AlignHorizontalCenterWithPanel ="True" 
                    Margin="0, 100, 0, 0"/>
 
-        <TextBlock Name="slogan"
-                   Text="Але, ну че там с деньгами?" 
-                   Style="{StaticResource sloganStyle}" 
-                   RelativePanel.Below="logo" 
-                   RelativePanel.AlignHorizontalCenterWithPanel="True" />
+        <Button Name="slogan"
+                Content="{Binding Phrase}"
+                Command="{Binding SloganClick}"
+                Style="{StaticResource sloganStyle}"
+                RelativePanel.Below="logo" 
+                RelativePanel.AlignHorizontalCenterWithPanel="True"/>
 
         <TextBox Name="nicknameInput" 
-                 MaxLength="30" 
-                 Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 Header="Nickname" PlaceholderText="Кто мы с тобой орлы или вороны?"
-                 Style="{StaticResource inputStyle}" 
-                 RelativePanel.AlignHorizontalCenterWithPanel="True" 
-                 RelativePanel.Below="slogan" Margin="0,30,0,0"/>
+                     MaxLength="30" 
+                     Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                     Header="Nickname" PlaceholderText="Кто мы с тобой орлы или вороны?"
+                     Style="{StaticResource inputStyle}" 
+                     RelativePanel.AlignHorizontalCenterWithPanel="True" 
+                     RelativePanel.Below="slogan" Margin="0,30,0,0"/>
 
         <Button Name="enterButton" 
                 Content="Войти" 
@@ -48,7 +49,9 @@
                    RelativePanel.AlignHorizontalCenterWithPanel="True" 
                    RelativePanel.AlignBottomWithPanel="True" 
                    Margin="0,0,0,30">
-            Made for fun and test UWP by <LineBreak/> undefined and kerjen
+            Made for fun and test UWP by <LineBreak/>  
+            <Hyperlink TextDecorations="None" Foreground="#00BDC4" NavigateUri="https://teleg.run/kerjen">KerJen</Hyperlink> and
+            <Hyperlink TextDecorations="None" Foreground="#00BDC4" NavigateUri="https://teleg.run/undefined7887">undefined</Hyperlink>
         </TextBlock>
     </RelativePanel>
 </Page>

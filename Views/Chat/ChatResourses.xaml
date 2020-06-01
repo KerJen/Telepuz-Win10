@@ -3,62 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Telepuz">
 
-    <Style x:Key="RootGridStyle" TargetType="ContentControl">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate  TargetType="ContentControl">
-                    <ContentControl Name="RootGrid">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
-
-                                <VisualState x:Name="LargeWindow">
-
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}" />
-                                    </VisualState.StateTriggers>
-
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Template" Value="{StaticResource LargeWindowTemplate}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-
-                                <VisualState x:Name="SmallWindow">
-
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}" />
-                                    </VisualState.StateTriggers>
-
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Template" Value="{StaticResource SmallWindowTemplate}" />
-                                    </VisualState.Setters>
-
-                                </VisualState>
-                            </VisualStateGroup>
-
-                        </VisualStateManager.VisualStateGroups>
-                    </ContentControl>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="logoStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="#00BCD4"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/logo.ttf#RUSMade in Chinav2"/>
+        <Setter Property="FontSize" Value="50"/>
+        <Setter Property="Padding" Value="20,10,0,10"/>
     </Style>
-
-    <ControlTemplate x:Key="SmallWindowTemplate">
-        <Grid>
-            <Rectangle Grid.Column="0" Fill="Green"></Rectangle>
-        </Grid>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="LargeWindowTemplate">
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350" />
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Rectangle Grid.Column="0" Fill="Green"></Rectangle>
-            <Rectangle Grid.Column="1" Fill="Red"></Rectangle>
-
-        </Grid>
-    </ControlTemplate>
 
 </ResourceDictionary>

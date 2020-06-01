@@ -9,11 +9,95 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <ResourceDictionary Source="ChatResourses.xaml"/>
+
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ChatResourses.xaml" />
+                <ResourceDictionary>
+                    <Style x:Key="RootGridStyle" TargetType="ContentControl">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate  TargetType="ContentControl">
+                                    <ContentControl Name="RootGrid">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup>
+
+                                                <VisualState x:Name="LargeWindow">
+
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}" />
+                                                    </VisualState.StateTriggers>
+
+                                                    <VisualState.Setters>
+                                                        <Setter Target="RootGrid.Template" Value="{StaticResource LargeWindowTemplate}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+
+                                                <VisualState x:Name="SmallWindow">
+
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}" />
+                                                    </VisualState.StateTriggers>
+
+                                                    <VisualState.Setters>
+                                                        <Setter Target="RootGrid.Template" Value="{StaticResource SmallWindowTemplate}" />
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+                                            </VisualStateGroup>
+
+                                        </VisualStateManager.VisualStateGroups>
+                                    </ContentControl>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <ControlTemplate  x:Key="SmallWindowTemplate">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="#BDBDBD" Grid.Row="0">
+                                <TextBlock TextAlignment="Center" Style="{StaticResource logoStyle}">TELEPUZ</TextBlock>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+
+                    <ControlTemplate x:Key="LargeWindowTemplate">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderThickness="0,0,0,1" BorderBrush="#BDBDBD" Grid.Row="0" Grid.ColumnSpan="2">
+                                <TextBlock TextAlignment="Left" Style="{StaticResource logoStyle}">TELEPUZ</TextBlock>
+                            </Border>
+
+                            <Border BorderThickness="0, 0, 1, 0" BorderBrush="#BDBDBD" Grid.Row="1" Grid.Column="0">
+                                <ListView>
+
+                                </ListView>
+                            </Border>
+
+                        </Grid>
+                    </ControlTemplate>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Page.Resources>
 
-    <ContentControl Style="{StaticResource RootGridStyle}">
-
-    </ContentControl>
+    <ContentControl Style="{StaticResource RootGridStyle}"/>
 
 </Page>

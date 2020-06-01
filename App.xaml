@@ -7,6 +7,9 @@
     xmlns:viewModels="using:Telepuz.ViewModels">
 
     <Application.Resources>
+        <x:Double x:Key="MinWindowSnapPoint">0</x:Double>
+        <x:Double x:Key="LargeWindowSnapPoint">640</x:Double>
+
         <viewModels:ViewModelLocator x:Key="Locator"/>
     </Application.Resources>
 </Application>

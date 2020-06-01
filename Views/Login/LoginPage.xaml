@@ -49,9 +49,11 @@
                    RelativePanel.AlignHorizontalCenterWithPanel="True" 
                    RelativePanel.AlignBottomWithPanel="True" 
                    Margin="0,0,0,30">
-            Made for fun and test UWP by <LineBreak/>  
+            Made for fun and test UWP by 
             <Hyperlink TextDecorations="None" Foreground="#00BDC4" NavigateUri="https://teleg.run/kerjen">KerJen</Hyperlink> and
-            <Hyperlink TextDecorations="None" Foreground="#00BDC4" NavigateUri="https://teleg.run/undefined7887">undefined</Hyperlink>
+            <Hyperlink TextDecorations="None" Foreground="#00BDC4" NavigateUri="https://teleg.run/undefined7887">undefined</Hyperlink><LineBreak/>  
+            Client <Hyperlink TextDecorations="None" Foreground="#00BDC4" NavigateUri="https://github.com/KerJen/Telepuz">source-code</Hyperlink>, Backend 
+            <Hyperlink TextDecorations="None" Foreground="#00BDC4" NavigateUri="https://github.com/undefined7887/telepuz-backend">source-code</Hyperlink>
         </TextBlock>
     </RelativePanel>
 </Page>

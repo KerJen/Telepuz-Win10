@@ -22,20 +22,21 @@ namespace Telepuz.ViewModels
     // TODO: Внедрить репозитории с DI
     public class LoginViewModel : ViewModelBase
     {
-        readonly Regex nicknameRegex = new Regex("^[A-zА-яЁё0-9\\s]{1,30}$");
+        readonly Regex _nicknameRegex = new Regex("^[A-zА-яЁё0-9\\s]{1,30}$");
 
-        readonly Random rand = new Random();
+        readonly Random _rand = new Random();
 
-        readonly MediaPlayer player = new MediaPlayer();
+        readonly MediaPlayer _player = new MediaPlayer();
 
         readonly TelepuzWebSocketService _client;
 
         public LoginViewModel()
         {
+            // Инициализация делегатов нажатий
             SloganClick = new RelayCommand(PlayAle);
             EnterButtonClick = new RelayCommand(SendNickname, NicknameCheck);
 
-            player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/ale.mp3"));
+            _player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/ale.mp3"));
 
             SetPhrases();
 
@@ -58,6 +59,9 @@ namespace Telepuz.ViewModels
             }
         }
 
+        /// <summary>
+        /// Меняет фразу слогана с помощью биндингов
+        /// </summary>
         async void SetPhrases()
         {
             while (true)
@@ -65,14 +69,17 @@ namespace Telepuz.ViewModels
                 foreach (var phrase in StringHelper.aleStrings)
                 {
                     Phrase = phrase;
-                    await Task.Delay(rand.Next(1000,1300));
+                    await Task.Delay(_rand.Next(1000,1300));
                 }
             }
         }
 
+        /// <summary>
+        /// Проигрывает звук алё)
+        /// </summary>
         void PlayAle()
         {
-            player.Play();
+            _player.Play();
         }
 
         // TODO: Посмотреть способ сокращения записи
@@ -88,14 +95,22 @@ namespace Telepuz.ViewModels
             }
         }
 
+        /// <summary>
+        /// Проверка формата имени
+        /// </summary>
+        /// <returns></returns>
         bool NicknameCheck()
         {
-            return Nickname != null && nicknameRegex.IsMatch(Nickname);
+            return Nickname != null && _nicknameRegex.IsMatch(Nickname);
         }
 
         // TODO: Перенести в репозитории
+        /// <summary>
+        /// Отправка запроса с никнеймом на сервер
+        /// </summary>
         void SendNickname()
         {
+            // Прослушивание ответа с сервера
             _client.Once("auth.login", (response) =>
             {
                 if (response.Result == (int)Results.OK)
@@ -104,6 +119,7 @@ namespace Telepuz.ViewModels
                 }
             });
 
+            // Подготовка объекта запроса
             var nicknameRequestDTO = new NicknameRequestDTO()
             {
                 Nickname = Nickname

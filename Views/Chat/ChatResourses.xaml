@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    
     xmlns:local="using:Telepuz">
 
     <Style x:Key="logoStyle" TargetType="TextBlock">
@@ -8,6 +9,61 @@
         <Setter Property="FontFamily" Value="/Assets/Fonts/logo.ttf#RUSMade in Chinav2"/>
         <Setter Property="FontSize" Value="50"/>
         <Setter Property="Padding" Value="20,10,0,10"/>
+    </Style>
+
+    <Style x:Key="chatUserListHeaderStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="Black"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-SemiBold.ttf#Open Sans"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+
+    <Style x:Key="avatarTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="White"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-SemiBold.ttf#Open Sans"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="chatUserNicknameStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="Black"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+
+    <Style x:Key="chatUserStatusStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="#BDBDBD"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+
+    <Style x:Key="inputStyle" TargetType="TextBox">
+        <Setter Property="SelectionHighlightColor" Value="#00BCD4"/>
+        <Setter Property="TextWrapping" Value = "Wrap" />
+        <Setter Property="AcceptsReturn" Value = "True" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <ScrollViewer x:Name="ContentElement" MaxHeight="150"  Padding="20,18,0,18"  Foreground="#464646" FontSize="18" FontFamily="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Name="sendButtonStyle" TargetType="Button">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Height="60">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE725;" Foreground="#00BCD4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Telepuz.Helpers
 {
-    public static class StringHelper
+    public static class Constants
     {
         public static readonly string[] aleStrings =
         {
@@ -16,6 +16,11 @@ namespace Telepuz.Helpers
             "— Кто?", "— Ты.", "— Чё с деньгами?", "— Какими деньгами?", "— Ну которые я внес в капитал.", "— Куда?",
             "— В капитал прожиточного минимума.", "— Ты пьяный или кто, сынок?", "— Я тре.. Я Михал Палыч Терентьев.", "— Кто такой?",
             "— Пьяный.",
+        };
+
+        public static readonly string[] avatarColors =
+        {
+            "#D32F2F", "#AB47BC", "#00BCD4", "#FF6D00", "#00C853"
         };
     }
 }

@@ -1,27 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Security;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.Media.Core;
 using Windows.Media.Playback;
-using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Threading;
+using GalaSoft.MvvmLight.Views;
 using Telepuz.Helpers;
 using Telepuz.Models.Business;
 using Telepuz.Models.Business.Model.Nickname;
 using Telepuz.Models.Network;
-using WebSocketSharp;
 
 namespace Telepuz.ViewModels
 {
     // TODO: Внедрить репозитории с DI
     public class LoginViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
+
         readonly Regex _nicknameRegex = new Regex("^[A-zА-яЁё0-9\\s]{1,30}$");
 
         readonly Random _rand = new Random();
@@ -30,8 +28,10 @@ namespace Telepuz.ViewModels
 
         readonly TelepuzWebSocketService _client;
 
-        public LoginViewModel()
+        public LoginViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
+
             // Инициализация делегатов нажатий
             SloganClick = new RelayCommand(PlayAle);
             EnterButtonClick = new RelayCommand(SendNickname, NicknameCheck);
@@ -45,8 +45,8 @@ namespace Telepuz.ViewModels
             _client.Connect();
         }
 
-        public RelayCommand EnterButtonClick { get; private set; }
-        public RelayCommand SloganClick { get; private set; }
+        public RelayCommand EnterButtonClick { get; }
+        public RelayCommand SloganClick { get; }
 
         string _phrase;
         public string Phrase
@@ -66,7 +66,7 @@ namespace Telepuz.ViewModels
         {
             while (true)
             {
-                foreach (var phrase in StringHelper.aleStrings)
+                foreach (var phrase in Constants.aleStrings)
                 {
                     Phrase = phrase;
                     await Task.Delay(_rand.Next(1000,1300));
@@ -101,21 +101,39 @@ namespace Telepuz.ViewModels
         /// <returns></returns>
         bool NicknameCheck()
         {
-            return Nickname != null && _nicknameRegex.IsMatch(Nickname);
+            return !Loading && Nickname != null && _nicknameRegex.IsMatch(Nickname);
+        }
+
+        bool _loading;
+        public bool Loading
+        {
+            get => _loading;
+            set
+            {
+                _loading = value;
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    RaisePropertyChanged("Loading");
+                    EnterButtonClick.RaiseCanExecuteChanged();
+                });
+            }
         }
 
         // TODO: Перенести в репозитории
         /// <summary>
         /// Отправка запроса с никнеймом на сервер
         /// </summary>
-        void SendNickname()
+        async void SendNickname()
         {
+            Loading = true;
+            await Task.Delay(1500);
             // Прослушивание ответа с сервера
             _client.Once("auth.login", (response) =>
             {
                 if (response.Result == (int)Results.OK)
                 {
-
+                    Loading = false;
+                    DispatcherHelper.CheckBeginInvokeOnUI(() => { _navigationService.NavigateTo("Chat"); });
                 }
             });
 

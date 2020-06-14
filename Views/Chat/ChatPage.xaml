@@ -115,7 +115,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
                                                     <Grid>
-                                                        <Ellipse Width="50" Height="50"  Fill="{Binding AvatarBackgroundColor}"/>
+                                                        <Ellipse Width="50" Height="50"  Fill="{Binding AvatarBackground}"/>
                                                         <TextBlock  Text="{Binding FirstLetter}" Style="{StaticResource avatarTextStyle}" HorizontalAlignment ="Center" VerticalAlignment="Center" />
                                                     </Grid>
 

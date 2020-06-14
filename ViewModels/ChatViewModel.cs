@@ -6,7 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
+using Telepuz.Helpers;
+using Telepuz.Models.Business.Model.DTO;
 using Telepuz.Models.Business.Model.User;
 using Telepuz.Models.Network;
 
@@ -14,6 +17,8 @@ namespace Telepuz.ViewModels
 {
     public class ChatViewModel : ViewModelBase
     {
+        readonly Random rand = new Random();
+
         readonly TelepuzWebSocketService _client;
 
         ObservableCollection<ChatUser> _users;
@@ -23,7 +28,7 @@ namespace Telepuz.ViewModels
             set
             {
                 _users = value;
-                RaisePropertyChanged("Users");
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged("Users"); });
             }
         }
 
@@ -45,19 +50,20 @@ namespace Telepuz.ViewModels
 
             _client = TelepuzWebSocketService.Client;
 
-            AddChatUsers();
+            GetAllUsers();
         }
 
 
-        async void AddChatUsers()
+        void GetAllUsers()
         {
-            while (true)
-            {
-                Users.Add(new ChatUser("ddd", "Dd"));
-                await Task.Delay(1000);
-            }
+           _client.Once<ChatUsersDTO>("users.getAll", (response) =>
+           {
+               var users = ((ChatUsersDTO) response.Data).Users;
+
+               Users = new ObservableCollection<ChatUser>(users);
+           });
+
+           _client.Request("users.getAll");
         }
-
-
     }
 }

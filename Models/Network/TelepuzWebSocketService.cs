@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using MessagePack;
 using MetroLog;
-using Telepuz.Models.Network.Request;
+using Telepuz.Models.Network.Model;
 using WebSocketSharp;
 
 namespace Telepuz.Models.Network
@@ -11,13 +12,15 @@ namespace Telepuz.Models.Network
     // TODO: Перевести на DI Stiletto Library вместо стандартного синглтона
     internal class TelepuzWebSocketService
     {
+        private const int RECONNECT_TIMEOUT = 5000;
+
         // Lazy-инициализация синглтона веб-сокет сервиса
         static readonly Lazy<TelepuzWebSocketService> telepuzWebSocketService
             = new Lazy<TelepuzWebSocketService>(() => new TelepuzWebSocketService());
 
-        ILogger Log = LogManagerFactory.DefaultLogManager.GetLogger<TelepuzWebSocketService>();
+        readonly ILogger Log = LogManagerFactory.DefaultLogManager.GetLogger<TelepuzWebSocketService>();
 
-        readonly WebSocket _client;
+        WebSocket _client;
 
         public static TelepuzWebSocketService Client => telepuzWebSocketService.Value;
 
@@ -25,7 +28,6 @@ namespace Telepuz.Models.Network
 
         private TelepuzWebSocketService()
         {
-            // Инициализация веб-сокет клиента
             _client = new WebSocket(ApiOptions.Url);
 
             // Инициализация пула калбеков
@@ -44,10 +46,44 @@ namespace Telepuz.Models.Network
 
             _client.OnError += (sender, e) =>
             {
-                //TODO: Сообщение об ошибке
+                Reconnect(RECONNECT_TIMEOUT);
             };
 
+            _client.OnClose += (sender, e) =>
+            {
+                Reconnect(RECONNECT_TIMEOUT);
+            };
+            
             _client.Connect();
+        }
+
+        async void Reconnect(int timeout)
+        {
+            await Task.Delay(timeout);
+
+            _client.Connect();
+        }
+
+        /// <summary>
+        /// /Прослушивает ошибки при WebSocket соединении
+        /// </summary>
+        /// <param name="callback">Калбэк ошибки</param>
+        public void OnServiceResponse(Action<WebSocketResults> callback)
+        {
+            _client.OnOpen += (sender, e) =>
+            {
+                callback(WebSocketResults.CONNECTION_SUCCESS);
+            };
+
+            _client.OnClose += (sender, e) =>
+            {
+                callback(WebSocketResults.CONNECTION_CLOSED);
+            };
+
+            _client.OnError += (sender, e) =>
+            {
+                callback(WebSocketResults.CONNECTION_FAILED);
+            };
         }
 
 
@@ -83,12 +119,12 @@ namespace Telepuz.Models.Network
         /// <typeparam name="T">Тип объекта десериализации</typeparam>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void On<T>(string methodName, Action<Response.Response> callback)
+        public void On<T>(string methodName, Action<Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
                 Type = typeof(T),
-                Action = (response) => callback((Response.Response)response)
+                Action = (response) => callback((Response)response)
             });
         }
 
@@ -97,12 +133,12 @@ namespace Telepuz.Models.Network
         /// </summary>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void On(string methodName, Action<Response.Response> callback)
+        public void On(string methodName, Action<Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
                 Type = null,
-                Action = (response) => callback((Response.Response)response)
+                Action = (response) => callback((Response)response)
             });
         }
 
@@ -112,7 +148,7 @@ namespace Telepuz.Models.Network
         /// <typeparam name="T">Тип объекта десериализации</typeparam>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void Once<T>(string methodName, Action<Response.Response> callback)
+        public void Once<T>(string methodName, Action<Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
@@ -120,7 +156,7 @@ namespace Telepuz.Models.Network
                 Action = (response) =>
                 {
                     _listenersPool.Remove(methodName);
-                    callback((Response.Response)response);
+                    callback((Model.Response)response);
                 }
             });
         }
@@ -130,7 +166,7 @@ namespace Telepuz.Models.Network
         /// </summary>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void Once(string methodName, Action<Response.Response> callback)
+        public void Once(string methodName, Action<Response> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
@@ -138,7 +174,7 @@ namespace Telepuz.Models.Network
                 Action = (response) =>
                 {
                     _listenersPool.Remove(methodName);
-                    callback((Response.Response)response);
+                    callback((Response)response);
                 }
             });
         }

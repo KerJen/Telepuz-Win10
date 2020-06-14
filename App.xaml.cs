@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -16,6 +17,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Threading;
+using Telepuz.Models.Network;
 
 namespace Telepuz
 {
@@ -24,10 +26,13 @@ namespace Telepuz
     /// </summary>
     sealed partial class App : Application
     {
+
+        TelepuzWebSocketService _client;
+
         /// <summary>
         /// Инициализирует одноэлементный объект приложения. Это первая выполняемая строка разрабатываемого
         /// кода, поэтому она является логическим эквивалентом main() или WinMain().
-        /// </summary>
+        /// </summary> 
         public App()
         {
             this.InitializeComponent();
@@ -42,7 +47,7 @@ namespace Telepuz
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-
+            DispatcherHelper.Initialize();
             // Не повторяйте инициализацию приложения, если в окне уже имеется содержимое,
             // только обеспечьте активность окна
             if (rootFrame == null)
@@ -65,16 +70,30 @@ namespace Telepuz
             {
                 if (rootFrame.Content == null)
                 {
-                    // Если стек навигации не восстанавливается для перехода к первой странице,
-                    // настройка новой страницы путем передачи необходимой информации в качестве параметра
-                    // навигации
-                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                    _client = TelepuzWebSocketService.Client;
+
+
+                    _client.OnServiceResponse((wbResult) =>
+                    {
+                        DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                        {
+                            if (wbResult == WebSocketResults.CONNECTION_SUCCESS)
+                            {
+                                rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                            }
+                            else if (wbResult == WebSocketResults.CONNECTION_CLOSED &&
+                                     rootFrame.CurrentSourcePageType != typeof(NoInternetConnectionPage))
+                            {
+                                rootFrame.Navigate(typeof(NoInternetConnectionPage));
+                            }
+                        });
+                    });
+
+                    _client.Connect();
                 }
                 // Обеспечение активности текущего окна
                 Window.Current.Activate();
             }
-
-            DispatcherHelper.Initialize();
         }
 
         /// <summary>

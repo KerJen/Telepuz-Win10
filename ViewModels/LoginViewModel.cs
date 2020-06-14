@@ -10,7 +10,7 @@ using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Telepuz.Helpers;
 using Telepuz.Models.Business;
-using Telepuz.Models.Business.Model.Nickname;
+using Telepuz.Models.Business.Model.DTO;
 using Telepuz.Models.Network;
 
 namespace Telepuz.ViewModels
@@ -34,15 +34,13 @@ namespace Telepuz.ViewModels
 
             // Инициализация делегатов нажатий
             SloganClick = new RelayCommand(PlayAle);
-            EnterButtonClick = new RelayCommand(SendNickname, NicknameCheck);
+            EnterButtonClick = new RelayCommand(SendNickname, EnterButtonCheck);
 
             _player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/ale.mp3"));
 
             SetPhrases();
 
             _client = TelepuzWebSocketService.Client;
-
-            _client.Connect();
         }
 
         public RelayCommand EnterButtonClick { get; }
@@ -82,6 +80,8 @@ namespace Telepuz.ViewModels
             _player.Play();
         }
 
+        bool internetConnection = true;
+
         // TODO: Посмотреть способ сокращения записи
         string _nickname;
         public string Nickname
@@ -93,15 +93,6 @@ namespace Telepuz.ViewModels
                 RaisePropertyChanged("Nickname");
                 EnterButtonClick.RaiseCanExecuteChanged();
             }
-        }
-
-        /// <summary>
-        /// Проверка формата имени
-        /// </summary>
-        /// <returns></returns>
-        bool NicknameCheck()
-        {
-            return !Loading && Nickname != null && _nicknameRegex.IsMatch(Nickname);
         }
 
         bool _loading;
@@ -119,6 +110,15 @@ namespace Telepuz.ViewModels
             }
         }
 
+        /// <summary>
+        /// Проверка - может ли быть активна кнопка
+        /// </summary>
+        /// <returns></returns>
+        bool EnterButtonCheck()
+        {
+            return internetConnection && !Loading && Nickname != null && _nicknameRegex.IsMatch(Nickname);
+        }
+
         // TODO: Перенести в репозитории
         /// <summary>
         /// Отправка запроса с никнеймом на сервер
@@ -132,7 +132,6 @@ namespace Telepuz.ViewModels
             {
                 if (response.Result == (int)Results.OK)
                 {
-                    Loading = false;
                     DispatcherHelper.CheckBeginInvokeOnUI(() => { _navigationService.NavigateTo("Chat"); });
                 }
             });

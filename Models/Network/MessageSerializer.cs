@@ -1,7 +1,6 @@
 ﻿using System;
 using MessagePack;
-using Telepuz.Models.Network.Request;
-using Telepuz.Models.Network.Response;
+using Telepuz.Models.Network.Model;
 
 namespace Telepuz.Models.Network
 {
@@ -45,6 +44,8 @@ namespace Telepuz.Models.Network
 
             var bytes = new byte[requestInfoBytes.Length + 1];
 
+            Buffer.BlockCopy(requestInfoBytes, 0, bytes, 0, requestInfoBytes.Length);
+
             // Добавление MapHeader со значением 0
             bytes[requestInfoBytes.Length] = 128;
 
@@ -71,7 +72,7 @@ namespace Telepuz.Models.Network
         /// <param name="bytes">Байты ответа</param>
         /// <exception cref="MessagePackSerializationException">Вызвается тогда, когда формат ответа не совпадает с форматом ответа сервера</exception>
         /// <returns>Десериализированная информация об ответе и десериализированный ответ</returns>
-        public static Response.Response DeserializeResponse(Type type, byte[] bytes)
+        public static Model.Response DeserializeResponse(Type type, byte[] bytes)
         {
             #region Разбор MsgPack по элементам и выборка нужных
 
@@ -89,7 +90,7 @@ namespace Telepuz.Models.Network
 
             #region Получение поля "data" и подготовка Response
 
-            Response.Response response;
+            Model.Response response;
 
             if (type != null)
             {
@@ -102,8 +103,10 @@ namespace Telepuz.Models.Network
                 // Копирование байтов объекта "data" из bytes в массив байтов dataBytes
                 Buffer.BlockCopy(bytes, reader.Position.GetInteger() - 1, dataBytes, 0, dataBytes.Length);
 
+                var a = BitConverter.ToString(dataBytes);
+
                 // Создание объекта ответа с результатом и объектом десериализации
-                response = new Response.Response()
+                response = new Model.Response()
                 {
                     Result = result,
                     Data = MessagePackSerializer.Deserialize(type, dataBytes)
@@ -111,7 +114,7 @@ namespace Telepuz.Models.Network
             }
             else
             {
-                response = new Response.Response()
+                response = new Model.Response()
                 {
                     Result = result,
                 };

@@ -118,20 +118,22 @@
   <ItemGroup>
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Models\Business\Model\DTO\ChatUsersDTO.cs" />
     <Compile Include="Models\Business\Model\User\ChatUser.cs" />
     <Compile Include="Models\Business\Results.cs" />
     <Compile Include="Models\Network\ApiOptions.cs" />
     <Compile Include="Models\Network\Callback.cs" />
     <Compile Include="Models\Network\MessageSerializer.cs" />
-    <Compile Include="Models\Business\Model\Nickname\NicknameRequestDTO.cs" />
-    <Compile Include="Models\Network\Request\Request.cs" />
-    <Compile Include="Models\Network\Request\RequestInfo.cs" />
-    <Compile Include="Models\Network\Response\Response.cs" />
-    <Compile Include="Models\Network\Response\ResponseInfo.cs" />
+    <Compile Include="Models\Business\Model\DTO\NicknameRequestDTO.cs" />
+    <Compile Include="Models\Network\Model\Request.cs" />
+    <Compile Include="Models\Network\Model\RequestInfo.cs" />
+    <Compile Include="Models\Network\Model\Response.cs" />
+    <Compile Include="Models\Network\Model\ResponseInfo.cs" />
     <Compile Include="Models\Network\TelepuzWebSocketService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Network\WebSocketResults.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
@@ -142,6 +144,9 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\NoInternetConnection\NoInternetConnectionPage.xaml.cs">
+      <DependentUpon>NoInternetConnectionPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -181,6 +186,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Login\LoginResourses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NoInternetConnection\NoInternetConnectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NoInternetConnection\NoInternetConnectionResourses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

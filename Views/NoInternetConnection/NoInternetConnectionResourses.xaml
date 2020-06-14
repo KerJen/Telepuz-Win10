@@ -1,0 +1,26 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Telepuz">
+
+    <Style x:Key="logoStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="#00BCD4"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/logo.ttf#RUSMade in Chinav2"/>
+        <Setter Property="FontSize" Value="50"/>
+    </Style>
+
+    <Style x:Key="hintStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="#464646"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Light.ttf#Open Sans"/>
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+
+    <Style x:Key="ringStyle" TargetType="ProgressRing">
+        <Setter Property="IsActive" Value="True" />
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Foreground" Value="#00BCD4" />
+    </Style>
+
+</ResourceDictionary>

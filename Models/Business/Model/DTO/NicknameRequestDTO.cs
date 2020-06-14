@@ -1,8 +1,8 @@
 ﻿using MessagePack;
 
-namespace Telepuz.Models.Business.Model.Nickname
+namespace Telepuz.Models.Business.Model.DTO
 {
-    [MessagePackObject()]
+    [MessagePackObject]
     public class NicknameRequestDTO
     {
         [Key("nickname")]

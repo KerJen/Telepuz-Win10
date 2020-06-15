@@ -171,7 +171,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBox Text="{Binding InputMessage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Style="{StaticResource inputStyle}" Grid.Column="0" VerticalAlignment="Center"/>
-                                        <Button Style="{StaticResource sendButtonStyle}" Grid.Column="1"  VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                                        <Button Command="{Binding SendClick}"  Style="{StaticResource sendButtonStyle}" Grid.Column="1"  VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </Border>
                             </Grid>

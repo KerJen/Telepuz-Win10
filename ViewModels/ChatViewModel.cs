@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Telepuz.Models.Business.Model;
@@ -48,17 +49,20 @@ namespace Telepuz.ViewModels
             }
         }
 
+        public RelayCommand SendClick { get; }
+
         public ChatViewModel(INavigationService navigationService)
         {
+            SendClick = new RelayCommand(SendMessage, InputMessageCheck);
+
             Users = new ObservableCollection<User>();
             Messages = new ObservableCollection<Message>();
 
             _client = TelepuzWebSocketService.Client;
 
             ListenUserChange();
-
             GetAllUsers();
-            GetAllMessages();
+            ListenNewMessage();
         }
 
         void ListenUserChange()
@@ -84,9 +88,47 @@ namespace Telepuz.ViewModels
             _client.Request("users.getAll");
         }
 
-        void GetAllMessages()
+        void ListenNewMessage()
         {
+            _client.On<MessageNewUpdateDTO>("updates.message.new", (update) =>
+            {
+                var message = update.Message;
+                message.Yours = false;
 
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { Messages.Add(message); });
+            });
+        }
+
+        bool InputMessageCheck()
+        {
+            return InputMessage != null;
+        }
+
+        void SendMessage()
+        {
+            var messageText = InputMessage;
+
+            _client.Once<MessageSendReponseDTO>("messages.send", (response) =>
+            {
+                var message = new Message()
+                {
+                    Id = "e",
+                    Text = messageText,
+                    User = null,
+                    UserId = "ff",
+                    Yours = true
+                };
+
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    DispatcherHelper.CheckBeginInvokeOnUI(() => { Messages.Add(message); });
+                });
+            });
+
+            _client.Request("messages.send", new MessageSendRequestDTO()
+            {
+                Text = InputMessage
+            });
         }
     }
 }

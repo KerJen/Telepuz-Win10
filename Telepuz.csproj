@@ -124,6 +124,9 @@
   <ItemGroup>
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Models\Business\Model\DTO\MessageNewUpdateDTO.cs" />
+    <Compile Include="Models\Business\Model\DTO\MessageSendReponseDTO.cs" />
+    <Compile Include="Models\Business\Model\DTO\MessageSendRequestDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\NicknameResponseDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\UserDeletedUpdateDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\UserNewUpdateDTO.cs" />

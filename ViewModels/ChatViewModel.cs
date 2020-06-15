@@ -128,7 +128,7 @@ namespace Telepuz.ViewModels
 
             _client.Request("messages.send", new MessageSendRequestDTO()
             {
-                Text = InputMessage
+                Text = messageText
             });
         }
     }

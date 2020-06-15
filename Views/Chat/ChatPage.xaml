@@ -55,18 +55,29 @@
                     </Style>
 
                     <local:MessageItemSelector
-                        x:Key="MessageItemSelector"
+                        x:Key="LargeMessageItemSelector"
                         YourMessageTemplate="{StaticResource YourMessageTemplate}"
                         MateMessageTemplate="{StaticResource MateMessageTemplate}"/>
 
+                    <local:MessageItemSelector
+                        x:Key="SmallMessageItemSelector"
+                        YourMessageTemplate="{StaticResource SmallYourMessageTemplate}"
+                        MateMessageTemplate="{StaticResource MateMessageTemplate}"/>
+
                     <DataTemplate x:Key="YourMessageTemplate" x:DataType="msg:Message">
-                        <Border BorderThickness="0" CornerRadius="16, 5,16,16" Background="#00BCD4" HorizontalAlignment="Right" Margin="0, 20,0,0">
+                        <Border BorderThickness="0" CornerRadius="16, 5,16,16" Background="#00BCD4" HorizontalAlignment="Right" Margin="0, 10,0,0">
+                            <TextBlock Text="{Binding Text}" Style="{StaticResource yourMessageStyle}"/>
+                        </Border>
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="SmallYourMessageTemplate" x:DataType="msg:Message">
+                        <Border BorderThickness="0" CornerRadius="16, 5,16,16" Background="#00BCD4" HorizontalAlignment="Left" Margin="0, 10,0,0">
                             <TextBlock Text="{Binding Text}" Style="{StaticResource yourMessageStyle}"/>
                         </Border>
                     </DataTemplate>
 
                     <DataTemplate x:Key="MateMessageTemplate" x:DataType="msg:Message">
-                        <Border BorderThickness="1" CornerRadius="5, 16,16,16" BorderBrush="#BDBDBD" HorizontalAlignment="Left" Margin="0, 20,0,0">
+                        <Border BorderThickness="1" CornerRadius="5, 16,16,16" BorderBrush="#BDBDBD" HorizontalAlignment="Left" Margin="0, 10,0,0">
                             <TextBlock Text="{Binding Text}" Style="{StaticResource mateMessageStyle}" />
                         </Border>
                     </DataTemplate>
@@ -83,7 +94,20 @@
                             </Border>
 
                             <Grid  Grid.Row="1">
-                                <Border BorderThickness="0, 1,0,0" BorderBrush="#BDBDBD" VerticalAlignment="Bottom">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <ListView 
+                                    ItemsSource="{Binding Messages}" 
+                                    ItemTemplateSelector="{StaticResource SmallMessageItemSelector}"
+                                    Style="{StaticResource messagesListViewStyle}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                    Grid.Row="0" />
+
+                                <Border BorderThickness="0, 1,0,0" BorderBrush="#BDBDBD" VerticalAlignment="Bottom" Grid.Row="1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -158,7 +182,7 @@
 
                                 <ListView 
                                     ItemsSource="{Binding Messages}" 
-                                    ItemTemplateSelector="{StaticResource MessageItemSelector}"
+                                    ItemTemplateSelector="{StaticResource LargeMessageItemSelector}"
                                     Style="{StaticResource messagesListViewStyle}"
                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
                                     Grid.Row="0" />

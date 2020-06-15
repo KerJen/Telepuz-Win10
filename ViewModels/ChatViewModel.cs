@@ -53,7 +53,7 @@ namespace Telepuz.ViewModels
 
         public ChatViewModel(INavigationService navigationService)
         {
-            SendClick = new RelayCommand(SendMessage, InputMessageCheck);
+            SendClick = new RelayCommand(SendMessage);
 
             Users = new ObservableCollection<User>();
             Messages = new ObservableCollection<Message>();
@@ -107,6 +107,7 @@ namespace Telepuz.ViewModels
         void SendMessage()
         {
             var messageText = InputMessage;
+            InputMessage = "";
 
             _client.Once<MessageSendReponseDTO>("messages.send", (response) =>
             {

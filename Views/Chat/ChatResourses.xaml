@@ -42,12 +42,11 @@
     <Style x:Key="inputStyle" TargetType="TextBox">
         <Setter Property="SelectionHighlightColor" Value="#00BCD4"/>
         <Setter Property="TextWrapping" Value = "Wrap" />
-        <Setter Property="AcceptsReturn" Value = "True" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
-                    <ScrollViewer x:Name="ContentElement" MaxHeight="150" Padding="20,18,0,18"  Foreground="#464646" FontSize="18" FontFamily="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
+                    <ScrollViewer x:Name="ContentElement" MaxHeight="150" Padding="20,14,0,14"  Foreground="#464646" FontSize="16" FontFamily="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -66,6 +65,14 @@
     </Style>
 
     <Style x:Name="messagesListViewStyle" TargetType="ListView">
+        <Setter Property="Padding" Value="0,0,0,10" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListViewItem">
@@ -73,23 +80,34 @@
                 </Style>
             </Setter.Value>
         </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                    <ReorderThemeTransition/>
+
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="SelectionMode" Value="None" />
     </Style>
 
     <Style x:Name="yourMessageStyle" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="IsTextSelectionEnabled" Value="True" />
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans" />
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="Padding" Value="16,7,16,7"/>
+        <Setter Property="Padding" Value="14,7,14,7"/>
     </Style>
 
     <Style x:Name="mateMessageStyle" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="IsTextSelectionEnabled" Value="True" />
         <Setter Property="Foreground" Value="#424242"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans" />
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="Padding" Value="16,7,16,7"/>
+        <Setter Property="Padding" Value="14,7,14,7"/>
     </Style>
-
-
 </ResourceDictionary>

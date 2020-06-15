@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
@@ -46,6 +47,7 @@ namespace Telepuz.ViewModels
             {
                 _inputMessage = value;
                 RaisePropertyChanged("InputMessage");
+                SendClick.RaiseCanExecuteChanged();
             }
         }
 
@@ -53,7 +55,7 @@ namespace Telepuz.ViewModels
 
         public ChatViewModel(INavigationService navigationService)
         {
-            SendClick = new RelayCommand(SendMessage);
+            SendClick = new RelayCommand(SendMessage, InputMessageCheck);
 
             Users = new ObservableCollection<User>();
             Messages = new ObservableCollection<Message>();
@@ -101,7 +103,7 @@ namespace Telepuz.ViewModels
 
         bool InputMessageCheck()
         {
-            return InputMessage != null;
+            return !string.IsNullOrEmpty(InputMessage) && InputMessage.Length < 6000;
         }
 
         void SendMessage()

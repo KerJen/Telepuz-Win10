@@ -1,28 +1,22 @@
-﻿using System;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
-using Telepuz.Helpers;
+using Telepuz.Models.Business.Model;
 using Telepuz.Models.Business.Model.DTO;
-using Telepuz.Models.Business.Model.User;
 using Telepuz.Models.Network;
 
 namespace Telepuz.ViewModels
 {
     public class ChatViewModel : ViewModelBase
     {
-        readonly Random rand = new Random();
-
         readonly TelepuzWebSocketService _client;
 
-        ObservableCollection<ChatUser> _users;
-        public ObservableCollection<ChatUser> Users
+        ObservableCollection<User> _users;
+        public ObservableCollection<User> Users
         {
             get => _users;
             set
@@ -32,38 +26,67 @@ namespace Telepuz.ViewModels
             }
         }
 
-        string _message;
-
-        public string Message
+        ObservableCollection<Message> _messages;
+        public ObservableCollection<Message> Messages
         {
-            get => _message;
+            get => _messages;
             set
             {
-                _message = value;
-                RaisePropertyChanged("Message");
+                _messages = value;
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { RaisePropertyChanged("Messages"); });
+            }
+        }
+
+        string _inputMessage;
+        public string InputMessage
+        {
+            get => _inputMessage;
+            set
+            {
+                _inputMessage = value;
+                RaisePropertyChanged("InputMessage");
             }
         }
 
         public ChatViewModel(INavigationService navigationService)
         {
-            Users = new ObservableCollection<ChatUser>();
+            Users = new ObservableCollection<User>();
+            Messages = new ObservableCollection<Message>();
 
             _client = TelepuzWebSocketService.Client;
 
+            ListenUserChange();
+
             GetAllUsers();
+            GetAllMessages();
         }
 
+        void ListenUserChange()
+        {
+            _client.On<UserNewUpdateDTO>("updates.user.new", (update) =>
+            {
+                Users.Add(update.NewUser);
+            });
+
+            _client.On<UserDeletedUpdateDTO>("updates.user.deleted", (update) =>
+            {
+                Users.Remove(Users.First(x => x.Id == update.UserId));
+            });
+        }
 
         void GetAllUsers()
         {
-           _client.Once<ChatUsersDTO>("users.getAll", (response) =>
-           {
-               var users = ((ChatUsersDTO) response.Data).Users;
+            _client.Once<UsersResponseDTO>("users.getAll", (response) =>
+            {
+                Users = new ObservableCollection<User>(response.Users);
+            });
 
-               Users = new ObservableCollection<ChatUser>(users);
-           });
+            _client.Request("users.getAll");
+        }
 
-           _client.Request("users.getAll");
+        void GetAllMessages()
+        {
+
         }
     }
 }

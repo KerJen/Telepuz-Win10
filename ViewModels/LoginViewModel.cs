@@ -128,11 +128,15 @@ namespace Telepuz.ViewModels
             Loading = true;
             await Task.Delay(1500);
             // Прослушивание ответа с сервера
-            _client.Once("auth.login", (response) =>
+            _client.Once<NicknameResponseDTO>("auth.login", (response) =>
             {
                 if (response.Result == (int)Results.OK)
                 {
-                    DispatcherHelper.CheckBeginInvokeOnUI(() => { _navigationService.NavigateTo("Chat"); });
+                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                    {
+                        _navigationService.NavigateTo("Chat");
+                        Loading = false;
+                    });
                 }
             });
 

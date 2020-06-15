@@ -18,6 +18,12 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -118,17 +124,17 @@
   <ItemGroup>
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Models\Business\Model\DTO\ChatUsersDTO.cs" />
-    <Compile Include="Models\Business\Model\User\ChatUser.cs" />
+    <Compile Include="Models\Business\Model\DTO\NicknameResponseDTO.cs" />
+    <Compile Include="Models\Business\Model\DTO\UserDeletedUpdateDTO.cs" />
+    <Compile Include="Models\Business\Model\DTO\UserNewUpdateDTO.cs" />
+    <Compile Include="Models\Business\Model\DTO\UsersResponseDTO.cs" />
+    <Compile Include="Models\Business\Model\Message.cs" />
+    <Compile Include="Models\Business\Model\User.cs" />
     <Compile Include="Models\Business\Results.cs" />
     <Compile Include="Models\Network\ApiOptions.cs" />
     <Compile Include="Models\Network\Callback.cs" />
     <Compile Include="Models\Network\MessageSerializer.cs" />
     <Compile Include="Models\Business\Model\DTO\NicknameRequestDTO.cs" />
-    <Compile Include="Models\Network\Model\Request.cs" />
-    <Compile Include="Models\Network\Model\RequestInfo.cs" />
-    <Compile Include="Models\Network\Model\Response.cs" />
-    <Compile Include="Models\Network\Model\ResponseInfo.cs" />
     <Compile Include="Models\Network\TelepuzWebSocketService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -140,6 +146,7 @@
     <Compile Include="Views\Chat\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Chat\MessageItemSelector.cs" />
     <Compile Include="Views\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -155,16 +162,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\ale.mp3" />
+    <Content Include="Assets\Group1.png" />
     <Content Include="Assets\send-24dp.svg" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo200x200.scale-400.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
@@ -210,6 +220,9 @@
     </PackageReference>
     <PackageReference Include="MvvmLightLibs">
       <Version>5.4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="ParallelExtensionsExtras">
+      <Version>1.2.0</Version>
     </PackageReference>
     <PackageReference Include="System.Net.WebSockets.Client">
       <Version>4.3.2</Version>

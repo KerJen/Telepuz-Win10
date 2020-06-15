@@ -9,14 +9,14 @@
   <Identity
     Name="cf8f9b03-7c1d-45db-ad2d-0cf702723d03"
     Publisher="CN=kerje"
-    Version="1.0.0.0" />
+    Version="0.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="cf8f9b03-7c1d-45db-ad2d-0cf702723d03" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Telepuz</DisplayName>
     <PublisherDisplayName>kerjen</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\StoreLogo200x200.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -37,7 +37,8 @@
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="Telepuz"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" >
+        </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png"  BackgroundColor="#00BCD4"/>
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>

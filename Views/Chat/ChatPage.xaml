@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Telepuz"
+    xmlns:msg="using:Telepuz.Models.Business.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -53,6 +54,23 @@
                         </Setter>
                     </Style>
 
+                    <local:MessageItemSelector
+                        x:Key="MessageItemSelector"
+                        YourMessageTemplate="{StaticResource YourMessageTemplate}"
+                        MateMessageTemplate="{StaticResource MateMessageTemplate}"/>
+
+                    <DataTemplate x:Key="YourMessageTemplate" x:DataType="msg:Message">
+                        <Border BorderThickness="0" CornerRadius="16, 5,16,16" Background="#00BCD4" HorizontalAlignment="Right" Margin="0, 20,0,0">
+                            <TextBlock Text="{Binding Text}" Style="{StaticResource yourMessageStyle}"/>
+                        </Border>
+                    </DataTemplate>
+
+                    <DataTemplate x:Key="MateMessageTemplate" x:DataType="msg:Message">
+                        <Border BorderThickness="1" CornerRadius="5, 16,16,16" BorderBrush="#BDBDBD" HorizontalAlignment="Left" Margin="0, 20,0,0">
+                            <TextBlock Text="{Binding Text}" Style="{StaticResource mateMessageStyle}" />
+                        </Border>
+                    </DataTemplate>
+
                     <ControlTemplate  x:Key="SmallWindowTemplate">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -72,7 +90,7 @@
                                             <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource inputStyle}" Grid.Column="0" VerticalAlignment="Center"/>
+                                        <TextBox Text="{Binding InputMessage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource inputStyle}" Grid.Column="0" VerticalAlignment="Center"/>
                                         <Button Style="{StaticResource sendButtonStyle}" Grid.Column="1"  VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </Border>
@@ -131,16 +149,28 @@
                                 </Grid>
                             </Border>
 
-
                             <Grid  Grid.Row="1" Grid.Column="1">
-                                <Border BorderThickness="0, 1,0,0" BorderBrush="#BDBDBD" VerticalAlignment="Bottom">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <ListView 
+                                    ItemsSource="{Binding Messages}" 
+                                    ItemTemplateSelector="{StaticResource MessageItemSelector}"
+                                    Style="{StaticResource messagesListViewStyle}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                    Grid.Row="0" />
+
+                                <Border BorderThickness="0,1,0,0" BorderBrush="#BDBDBD" VerticalAlignment="Bottom" Grid.Row="1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Style="{StaticResource inputStyle}" Grid.Column="0" VerticalAlignment="Center"/>
+                                        <TextBox Text="{Binding InputMessage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Style="{StaticResource inputStyle}" Grid.Column="0" VerticalAlignment="Center"/>
                                         <Button Style="{StaticResource sendButtonStyle}" Grid.Column="1"  VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </Border>

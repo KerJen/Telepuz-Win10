@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MessagePack;
 using MetroLog;
-using Telepuz.Models.Network.Model;
 using WebSocketSharp;
 
 namespace Telepuz.Models.Network
@@ -20,7 +19,7 @@ namespace Telepuz.Models.Network
 
         readonly ILogger Log = LogManagerFactory.DefaultLogManager.GetLogger<TelepuzWebSocketService>();
 
-        WebSocket _client;
+        readonly WebSocket _client;
 
         public static TelepuzWebSocketService Client => telepuzWebSocketService.Value;
 
@@ -39,10 +38,7 @@ namespace Telepuz.Models.Network
         /// </summary>
         public void Connect()
         {
-            _client.OnOpen += (sender, e) =>
-            {
-                ListenResponses();
-            };
+            ListenResponses();
 
             _client.OnError += (sender, e) =>
             {
@@ -52,6 +48,7 @@ namespace Telepuz.Models.Network
             _client.OnClose += (sender, e) =>
             {
                 Reconnect(RECONNECT_TIMEOUT);
+                
             };
             
             _client.Connect();
@@ -96,15 +93,15 @@ namespace Telepuz.Models.Network
             {
                 try
                 {
-                    var responseInfo = MessageSerializer.DeserializeResponseInfo(e.RawData);
+                    var methodName = MessageSerializer.DeserializeMethodName(e.RawData);
 
-                    var callback = _listenersPool[responseInfo.MethodName];
+                    var callback = _listenersPool[methodName];
 
                     callback.Action(MessageSerializer.DeserializeResponse(callback.Type, e.RawData));
                 }
                 catch (KeyNotFoundException)
                 {
-                    Log.Info($"Непрослушиваемый метод: {MessageSerializer.DeserializeResponseInfo(e.RawData)}");
+                    Log.Info($"Непрослушиваемый метод: {MessageSerializer.DeserializeMethodName(e.RawData)}");
                 }
                 catch (MessagePackSerializationException)
                 {
@@ -119,26 +116,12 @@ namespace Telepuz.Models.Network
         /// <typeparam name="T">Тип объекта десериализации</typeparam>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void On<T>(string methodName, Action<Response> callback)
+        public void On<T>(string methodName, Action<T> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
                 Type = typeof(T),
-                Action = (response) => callback((Response)response)
-            });
-        }
-
-        /// <summary>
-        /// Создает callback, который будет передавать только result, и записывает его в словарь callback'ов
-        /// </summary>
-        /// <param name="methodName">Название метода</param>
-        /// <param name="callback">Callback результата прослушивания метода</param>
-        public void On(string methodName, Action<Response> callback)
-        {
-            _listenersPool.Add(methodName, new Callback()
-            {
-                Type = null,
-                Action = (response) => callback((Response)response)
+                Action = (response) => callback((T)response)
             });
         }
 
@@ -148,7 +131,7 @@ namespace Telepuz.Models.Network
         /// <typeparam name="T">Тип объекта десериализации</typeparam>
         /// <param name="methodName">Название метода</param>
         /// <param name="callback">Callback результата прослушивания метода</param>
-        public void Once<T>(string methodName, Action<Response> callback)
+        public void Once<T>(string methodName, Action<T> callback)
         {
             _listenersPool.Add(methodName, new Callback()
             {
@@ -156,25 +139,7 @@ namespace Telepuz.Models.Network
                 Action = (response) =>
                 {
                     _listenersPool.Remove(methodName);
-                    callback((Model.Response)response);
-                }
-            });
-        }
-
-        /// <summary>
-        /// Создает одноразовый callback, который будет передавать только result, и записывает его в словарь callback'ов
-        /// </summary>
-        /// <param name="methodName">Название метода</param>
-        /// <param name="callback">Callback результата прослушивания метода</param>
-        public void Once(string methodName, Action<Response> callback)
-        {
-            _listenersPool.Add(methodName, new Callback()
-            {
-                Type = null,
-                Action = (response) =>
-                {
-                    _listenersPool.Remove(methodName);
-                    callback((Response)response);
+                    callback((T)response);
                 }
             });
         }
@@ -187,17 +152,7 @@ namespace Telepuz.Models.Network
         /// <param name="data">Объект запроса</param>
         public void Request<T>(string methodName, T data)
         {
-            var requestInfo = new RequestInfo()
-            {
-                MethodName = methodName
-            };
-
-            var request = new Request<T>()
-            {
-                Data = data
-            };
-
-            _client.Send(MessageSerializer.SerializeRequest<T>(requestInfo, request));
+            _client.Send(MessageSerializer.SerializeRequest<T>(methodName, data));
         }
 
         /// <summary>
@@ -206,12 +161,7 @@ namespace Telepuz.Models.Network
         /// <param name="methodName">Название метода</param>
         public void Request(string methodName)
         {
-            var requestInfo = new RequestInfo()
-            {
-                MethodName = methodName
-            };
-
-            _client.Send(MessageSerializer.SerializeRequest(requestInfo));
+            _client.Send(MessageSerializer.SerializeRequest(methodName));
         }
     }
 }

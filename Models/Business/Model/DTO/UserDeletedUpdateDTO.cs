@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MessagePack;
-using Telepuz.Models.Business.Model.User;
 
 namespace Telepuz.Models.Business.Model.DTO
 {
     [MessagePackObject]
-    public class ChatUsersDTO
+    public class UserDeletedUpdateDTO
     {
-        [Key("users")]
-        public List<ChatUser> Users { get; set; }
+        [Key("user_id")]
+        public string UserId { get; set; }
     }
 }

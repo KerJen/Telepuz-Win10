@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Buffers.Text;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using MessagePack;
 using Telepuz.Helpers;
 
-namespace Telepuz.Models.Business.Model.User
+namespace Telepuz.Models.Business.Model
 {
     [MessagePackObject]
-    public class ChatUser
+    public class User
     {
-
         readonly SHA256 sha = SHA256.Create();
 
         [Key("id")]

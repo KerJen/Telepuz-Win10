@@ -65,12 +65,12 @@ namespace Telepuz.ViewModels
         {
             _client.On<UserNewUpdateDTO>("updates.user.new", (update) =>
             {
-                Users.Add(update.NewUser);
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { Users.Add(update.NewUser); });
             });
 
             _client.On<UserDeletedUpdateDTO>("updates.user.deleted", (update) =>
             {
-                Users.Remove(Users.First(x => x.Id == update.UserId));
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { Users.Remove(Users.First(x => x.Id == update.UserId)); });
             });
         }
 
@@ -78,7 +78,7 @@ namespace Telepuz.ViewModels
         {
             _client.Once<UsersResponseDTO>("users.getAll", (response) =>
             {
-                Users = new ObservableCollection<User>(response.Users);
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { Users = new ObservableCollection<User>(response.Users); });
             });
 
             _client.Request("users.getAll");

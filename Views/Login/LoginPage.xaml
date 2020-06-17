@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <RelativePanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+    <RelativePanel Background="White">
 
         <TextBlock Name="logo" 
                    Text="TELEPUZ"

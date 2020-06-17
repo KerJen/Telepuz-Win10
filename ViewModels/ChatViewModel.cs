@@ -1,8 +1,11 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Windows.UI.Text.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
@@ -94,10 +97,15 @@ namespace Telepuz.ViewModels
         {
             _client.On<MessageNewUpdateDTO>("updates.message.new", (update) =>
             {
-                var message = update.Message;
-                message.Yours = false;
+                update.Message.Yours = false;
+                update.Message.User = Users.First(x => x.Id == update.Message.UserId);
 
-                DispatcherHelper.CheckBeginInvokeOnUI(() => { Messages.Add(message); });
+                if (Messages.Count == 0 || update.Message.UserId != Messages.Last().UserId)
+                {
+                    update.Message.UserInfoVisible = true;
+                }
+
+                DispatcherHelper.CheckBeginInvokeOnUI(() => { Messages.Add(update.Message); });
             });
         }
 
@@ -111,7 +119,7 @@ namespace Telepuz.ViewModels
             var messageText = InputMessage;
             InputMessage = "";
 
-            _client.Once<MessageSendReponseDTO>("messages.send", (response) =>
+            _client.Once<MessageSendReponseDTO>("messages.send", response =>
             {
                 var message = new Message()
                 {

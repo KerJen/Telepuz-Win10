@@ -6,9 +6,10 @@
     xmlns:msg="using:Telepuz.Models.Business.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Telepuz.Helpers.Converters"
     mc:Ignorable="d"
     DataContext="{Binding Chat, Source={StaticResource Locator}}"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="White">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -54,6 +55,9 @@
                         </Setter>
                     </Style>
 
+                    <converters:BooleanToVisibilityConverter x:Name="BoolToVisConverter"/>
+                    <converters:BooleanToOpacityConverter x:Name="BoolToOpasConverter"/>
+
                     <local:MessageItemSelector
                         x:Key="LargeMessageItemSelector"
                         YourMessageTemplate="{StaticResource YourMessageTemplate}"
@@ -65,21 +69,49 @@
                         MateMessageTemplate="{StaticResource MateMessageTemplate}"/>
 
                     <DataTemplate x:Key="YourMessageTemplate" x:DataType="msg:Message">
-                        <Border BorderThickness="0" CornerRadius="18,3, 18, 18" Background="#00BCD4" HorizontalAlignment="Right" Margin="0,5,0,0">
+                        <Border Padding ="14,7,14,7" BorderThickness="0" CornerRadius="18,3, 18, 18" Background="#00BCD4" HorizontalAlignment="Right" Margin="0,5,0,0">
                             <TextBlock MaxWidth="350" Text="{Binding Text}" Style="{StaticResource yourMessageStyle}"/>
                         </Border>
                     </DataTemplate>
 
                     <DataTemplate x:Key="SmallYourMessageTemplate" x:DataType="msg:Message">
-                        <Border BorderThickness="0" CornerRadius="3, 18,18,18" Background="#00BCD4" HorizontalAlignment="Left" Margin="0,5,0,0">
-                            <TextBlock MaxWidth="350" Text="{Binding Text}" Style="{StaticResource yourMessageStyle}" />
-                        </Border>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,10,0">
+                            <Grid VerticalAlignment="Top" Opacity="{Binding UserInfoVisible, Converter={StaticResource BoolToOpasConverter}}">
+                                <Ellipse Width="30" Height="30" Fill="{Binding User.AvatarBackground}"/>
+                                <TextBlock Text="{Binding User.FirstLetter}" Style="{StaticResource avatarMateMessageTextStyle}" HorizontalAlignment ="Center" VerticalAlignment="Center" />
+                            </Grid>
+
+                            <Border Padding ="14,7,14,7" BorderThickness="0" CornerRadius="3, 18,18,18" Background="#00BCD4" HorizontalAlignment="Left" Margin="0,5,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding User.Nickname}" 
+                                               Foreground="{Binding User.AvatarBackground}"
+                                               Visibility="{Binding UserInfoVisible, Converter={StaticResource BoolToVisConverter}}"
+                                               Style="{StaticResource mateNicknameStyle}" />
+
+                                    <TextBlock MaxWidth="350" Text="{Binding Text}" Style="{StaticResource yourMessageStyle}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
                     </DataTemplate>
 
                     <DataTemplate x:Key="MateMessageTemplate" x:DataType="msg:Message">
-                        <Border BorderThickness="1" CornerRadius="3,18,18,18" BorderBrush="#BDBDBD" HorizontalAlignment="Left" Margin="0,5,0,0">
-                            <TextBlock  MaxWidth="350" Text="{Binding Text}" Style="{StaticResource mateMessageStyle}" />
-                        </Border>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,10,0">
+                            <Grid VerticalAlignment="Top" Opacity="{Binding UserInfoVisible, Converter={StaticResource BoolToOpasConverter}}">
+                                <Ellipse Width="30" Height="30" Fill="{Binding User.AvatarBackground}"/>
+                                <TextBlock Text="{Binding User.FirstLetter}" Style="{StaticResource avatarMateMessageTextStyle}" HorizontalAlignment ="Center" VerticalAlignment="Center" />
+                            </Grid>
+
+                            <Border Padding ="14,7,14,7" BorderThickness="1" CornerRadius="3,16,16,16" BorderBrush="#BDBDBD" HorizontalAlignment="Left" Margin="10,0,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding User.Nickname}" 
+                                               Foreground="{Binding User.AvatarBackground}"
+                                               Visibility="{Binding UserInfoVisible, Converter={StaticResource BoolToVisConverter}}"
+                                               Style="{StaticResource mateNicknameStyle}" />
+
+                                    <TextBlock MaxWidth="350" Text="{Binding Text}" Style="{StaticResource mateMessageStyle}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
                     </DataTemplate>
 
                     <ControlTemplate  x:Key="SmallWindowTemplate">

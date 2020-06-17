@@ -9,8 +9,6 @@ namespace Telepuz.Models.Business.Model
     [MessagePackObject]
     public class User
     {
-        readonly SHA256 sha = SHA256.Create();
-
         [Key("id")]
         public string Id { get; set; }
 
@@ -28,7 +26,7 @@ namespace Telepuz.Models.Business.Model
                 var nicknameHashBytes = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(Nickname));
                 var hashNumber = BitConverter.ToInt32(nicknameHashBytes, 0);
 
-                return Constants.avatarColors[Math.Abs(hashNumber) % Constants.avatarColors.Length]; 
+                return Constants.avatarColors[Math.Abs(hashNumber) % Constants.avatarColors.Length];
             }
         }
 

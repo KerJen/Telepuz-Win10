@@ -25,6 +25,13 @@
         <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
+    <Style x:Key="avatarMateMessageTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value ="White"/>
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-SemiBold.ttf#Open Sans"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
     <Style x:Key="chatUserNicknameStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value ="Black"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
@@ -96,18 +103,23 @@
     <Style x:Name="yourMessageStyle" TargetType="TextBlock">
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="IsTextSelectionEnabled" Value="True" />
+        <Setter Property="SelectionHighlightColor" Value="#00BCD4" />
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans" />
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="Padding" Value="14,7,14,7"/>
+    </Style>
+
+    <Style x:Name="mateNicknameStyle" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-SemiBold.ttf#Open Sans" />
+        <Setter Property="FontSize" Value="14"/>
     </Style>
 
     <Style x:Name="mateMessageStyle" TargetType="TextBlock">
-        <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="IsTextSelectionEnabled" Value="True" />
+        <Setter Property="SelectionHighlightColor" Value="#00BCD4" />
         <Setter Property="Foreground" Value="#424242"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans" />
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="Padding" Value="14,7,14,7"/>
     </Style>
 </ResourceDictionary>

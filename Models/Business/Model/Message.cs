@@ -19,5 +19,8 @@ namespace Telepuz.Models.Business.Model
 
         [IgnoreMember] 
         public User User { get; set; }
+
+        [IgnoreMember]
+        public bool UserInfoVisible { get; set; }
     }
 }

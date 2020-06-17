@@ -80,8 +80,6 @@ namespace Telepuz.ViewModels
             _player.Play();
         }
 
-        bool internetConnection = true;
-
         // TODO: Посмотреть способ сокращения записи
         string _nickname;
         public string Nickname
@@ -116,7 +114,7 @@ namespace Telepuz.ViewModels
         /// <returns></returns>
         bool EnterButtonCheck()
         {
-            return internetConnection && !Loading && Nickname != null && _nicknameRegex.IsMatch(Nickname);
+            return !Loading && Nickname != null && _nicknameRegex.IsMatch(Nickname);
         }
 
         // TODO: Перенести в репозитории
@@ -146,7 +144,7 @@ namespace Telepuz.ViewModels
                 Nickname = Nickname
             };
 
-            _client.Request<NicknameRequestDTO>("auth.login", nicknameRequestDTO);
+            _client.Request("auth.login", nicknameRequestDTO);
         }
     }
 }

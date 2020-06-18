@@ -116,6 +116,7 @@
 
     <Style x:Name="mateMessageStyle" TargetType="TextBlock">
         <Setter Property="IsTextSelectionEnabled" Value="True" />
+        <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="SelectionHighlightColor" Value="#00BCD4" />
         <Setter Property="Foreground" Value="#424242"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans" />

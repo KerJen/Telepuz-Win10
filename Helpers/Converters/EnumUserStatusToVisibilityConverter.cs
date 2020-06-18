@@ -9,37 +9,35 @@ using Telepuz.Models.Business.Model;
 
 namespace Telepuz.Helpers.Converters
 {
-    public class EnumUserStatusToStringConverter : IValueConverter
+    public class EnumUserStatusToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var userStatus = (UserStatus)value;
+            var userStatus = (UserStatus) value;
             switch (userStatus)
             {
                 case UserStatus.AFK:
-                    return "отошел";
+                    return Visibility.Collapsed;
                 case UserStatus.Online:
-                    return "онлайн";
+                    return Visibility.Collapsed;
                 case UserStatus.Typing:
-                    return "печатает";
+                    return Visibility.Visible;
                 default:
-                    return "онлайн";
+                    return Visibility.Collapsed;
             }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            var userStatus = value.ToString();
+            var userStatus = (Visibility) value;
             switch (userStatus)
             {
-                case "отошел":
-                    return UserStatus.AFK;
-                case "онлайн":
+                case Visibility.Collapsed:
                     return UserStatus.Online;
-                case "печатает":
+                case Visibility.Visible:
                     return UserStatus.Typing;
                 default:
-                    return UserStatus.Online;
+                    return UserStatus.AFK;
             }
         }
     }

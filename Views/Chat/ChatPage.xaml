@@ -59,6 +59,7 @@
                     <converters:BooleanToOpacityConverter x:Name="BoolToOpasConverter"/>
                     <converters:EnumUserStatusToStringConverter x:Name="EnumUserStatusToStringConverter"/>
                     <converters:EnumUserStatusToColorConverter x:Name="EnumUserStatusToColorConverter"/>
+                    <converters:EnumUserStatusToVisibilityConverter x:Name="EnumUserStatusToVisibilityConverter"/>
 
 
                     <local:MessageItemSelector
@@ -207,11 +208,13 @@
 
                                                     <StackPanel VerticalAlignment="Center" Margin="18,0,0,0">
                                                         <TextBlock Text="{Binding Nickname}" Style="{StaticResource chatUserNicknameStyle}"/>
-                                                        <TextBlock Text="{Binding Status, Converter={StaticResource EnumUserStatusToStringConverter}}" 
-                                                                   Foreground="{Binding Status, Converter={StaticResource EnumUserStatusToColorConverter}}"
-                                                                   Style="{StaticResource chatUserStatusStyle}"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <local:TypingView Visibility="{Binding Status, Converter={StaticResource EnumUserStatusToVisibilityConverter}}" Margin="0,0,5,0"/>
+                                                            <TextBlock Text="{Binding Status, Converter={StaticResource EnumUserStatusToStringConverter}}" 
+                                                                       Foreground="{Binding Status, Converter={StaticResource EnumUserStatusToColorConverter}}"
+                                                                       Style="{StaticResource chatUserStatusStyle}"/>
+                                                        </StackPanel>
                                                     </StackPanel>
-
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>

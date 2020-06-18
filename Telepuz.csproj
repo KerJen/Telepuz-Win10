@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Converters\EnumUserStatusToColorConverter.cs" />
+    <Compile Include="Helpers\Converters\EnumUserStatusToVisibilityConverter.cs" />
     <Compile Include="Helpers\Converters\EnumUserStatusToStringConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
@@ -161,6 +162,9 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\TypingView.xaml.cs">
+      <DependentUpon>TypingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NoInternetConnection\NoInternetConnectionPage.xaml.cs">
       <DependentUpon>NoInternetConnectionPage.xaml</DependentUpon>
     </Compile>
@@ -206,6 +210,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Login\LoginResourses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TypingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
@@ -78,8 +79,16 @@ namespace Telepuz.ViewModels
 
         readonly Timer timer = new Timer(2000);
 
+        string _user_id;
+
         public ChatViewModel(INavigationService navigationService)
         {
+            MessengerInstance.Register<string>(this, data =>
+            {
+                _user_id = data;
+            });
+
+
             SendClick = new RelayCommand(SendMessage, InputMessageCheck);
 
             Users = new ObservableCollection<User>();
@@ -90,11 +99,11 @@ namespace Telepuz.ViewModels
             timer.AutoReset = false;
 
             GetAllUsers();
+            ListenApplicationEvents();
             ListenUserChange();
             ListenUserStatus();
             ListenNewMessage();
         }
-
 
         void ListenUserChange()
         {
@@ -189,10 +198,24 @@ namespace Telepuz.ViewModels
 
         void UpdateUserStatus(UserStatus status)
         {
+            DispatcherHelper.CheckBeginInvokeOnUI(() => { Users.First(x => x.Id == _user_id).Status = status; });
             _client.Request("users.updateStatus", new UserUpdateStatusRequestDTO()
             {
                 UserStatus = status
             });
+        }
+
+        private void ListenApplicationEvents()
+        {
+            Application.Current.Suspending += (sender, e) =>
+            {
+                UpdateUserStatus(UserStatus.AFK);
+            };
+
+            Application.Current.Resuming += (sender, e) =>
+            {
+                UpdateUserStatus(UserStatus.Online);
+            };
         }
     }
 }

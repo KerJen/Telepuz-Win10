@@ -6,6 +6,7 @@ using Windows.Media.Playback;
 using Windows.UI.Xaml.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Telepuz.Helpers;
@@ -67,7 +68,7 @@ namespace Telepuz.ViewModels
                 foreach (var phrase in Constants.aleStrings)
                 {
                     Phrase = phrase;
-                    await Task.Delay(_rand.Next(1000,1300));
+                    await Task.Delay(_rand.Next(1000, 1300));
                 }
             }
         }
@@ -132,7 +133,9 @@ namespace Telepuz.ViewModels
                 {
                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
+                       
                         _navigationService.NavigateTo("Chat");
+                        Messenger.Default.Send<string>(response.UserId);
                         Loading = false;
                     });
                 }

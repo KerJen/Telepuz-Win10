@@ -44,7 +44,11 @@ namespace Telepuz.ViewModels
             {
                 if (!_typing && value)
                 {
-                    SendTypingStatus();
+                    UpdateUserStatus(UserStatus.Typing);
+                }
+                else if(_typing && !value)
+                {
+                    UpdateUserStatus(UserStatus.Online);
                 }
 
                 _typing = value;
@@ -178,11 +182,11 @@ namespace Telepuz.ViewModels
         }
 
 
-        void SendTypingStatus()
+        void UpdateUserStatus(UserStatus status)
         {
             _client.Request("users.updateStatus", new UserUpdateStatusRequestDTO()
             {
-                UserStatus = UserStatus.Typing
+                UserStatus = status
             });
         }
     }

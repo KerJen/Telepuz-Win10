@@ -126,7 +126,6 @@
     <Compile Include="Helpers\Converters\EnumUserStatusToStringConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Helpers\ObservableCollectionExtensions.cs" />
     <Compile Include="Models\Business\Model\DTO\MessageNewUpdateDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\MessageSendReponseDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\MessageSendRequestDTO.cs" />
@@ -149,6 +148,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Network\WebSocketResults.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />

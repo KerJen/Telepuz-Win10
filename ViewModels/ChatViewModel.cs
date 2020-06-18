@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -47,7 +49,7 @@ namespace Telepuz.ViewModels
                 {
                     UpdateUserStatus(UserStatus.Typing);
                 }
-                else if(_typing && !value)
+                else if (_typing && !value)
                 {
                     UpdateUserStatus(UserStatus.Online);
                 }
@@ -128,10 +130,7 @@ namespace Telepuz.ViewModels
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
-                    var user = Users.First(x => x.Id == update.UserId);
-                    user.Status = update.Status;
-
-                    Users[Users.FindIndex(x => x.Id == update.UserId)] = user;
+                    Users.First(x => x.Id == update.UserId).Status = update.Status;
                 });
             });
         }
@@ -175,7 +174,10 @@ namespace Telepuz.ViewModels
 
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
-                    DispatcherHelper.CheckBeginInvokeOnUI(() => { Messages.Add(message); });
+                    Messages.Add(message);
+
+                    timer.Stop();
+                    Typing = false;
                 });
             });
 

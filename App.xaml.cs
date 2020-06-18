@@ -39,6 +39,7 @@ namespace Telepuz
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.Resuming += OnResuming;
         }
 
         /// <summary>
@@ -108,7 +109,7 @@ namespace Telepuz
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        void SetUserStatusAFK()
+        void UpdateUserStatus(UserStatus status)
         {
             _client.Request("users.updateStatus", new UserUpdateStatusRequestDTO()
             {
@@ -126,8 +127,19 @@ namespace Telepuz
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            SetUserStatusAFK();
+            UpdateUserStatus(UserStatus.AFK);
             deferral.Complete();
         }
+
+        /// <summary>
+        /// Вызывается при возобновлении приложения
+        /// </summary>
+        /// <param name="sender">Источник запроса возобновления.</param>
+        /// <param name="e">Сведения о запросе возобновления.</param>
+        private void OnResuming(object sender, object e)
+        {
+            UpdateUserStatus(UserStatus.Online);
+        }
+
     }
 }

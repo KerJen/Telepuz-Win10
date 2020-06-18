@@ -14,7 +14,7 @@ namespace Telepuz.Models.Business.Model.DTO
         [Key("user_id")]
         public string UserId { get; set; }
 
-        [Key("status")]
+        [Key("user_status")]
         public UserStatus Status { get; set; }
     }
 }

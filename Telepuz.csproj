@@ -126,6 +126,7 @@
     <Compile Include="Helpers\Converters\EnumUserStatusToStringConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\ObservableCollectionExtensions.cs" />
     <Compile Include="Models\Business\Model\DTO\MessageNewUpdateDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\MessageSendReponseDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\MessageSendRequestDTO.cs" />

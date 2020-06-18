@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
+using Telepuz.Helpers;
 using Telepuz.Models.Business.Model;
 using Telepuz.Models.Business.Model.DTO;
 using Telepuz.Models.Network;
@@ -73,7 +74,7 @@ namespace Telepuz.ViewModels
 
         public RelayCommand SendClick { get; }
 
-        readonly Timer timer = new Timer(2000);
+        readonly Timer timer = new Timer();
 
         public ChatViewModel(INavigationService navigationService)
         {
@@ -84,7 +85,6 @@ namespace Telepuz.ViewModels
 
             _client = TelepuzWebSocketService.Client;
 
-
             timer.AutoReset = false;
 
             GetAllUsers();
@@ -92,6 +92,7 @@ namespace Telepuz.ViewModels
             ListenUserStatus();
             ListenNewMessage();
         }
+
 
         void ListenUserChange()
         {
@@ -127,7 +128,10 @@ namespace Telepuz.ViewModels
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
-                    Users.First(x => x.Id == update.UserId).Status = update.Status;
+                    var user = Users.First(x => x.Id == update.UserId);
+                    user.Status = update.Status;
+
+                    Users[Users.FindIndex(x => x.Id == update.UserId)] = user;
                 });
             });
         }

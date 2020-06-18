@@ -74,7 +74,7 @@ namespace Telepuz.ViewModels
 
         public RelayCommand SendClick { get; }
 
-        readonly Timer timer = new Timer();
+        readonly Timer timer = new Timer(5000);
 
         public ChatViewModel(INavigationService navigationService)
         {
@@ -184,7 +184,6 @@ namespace Telepuz.ViewModels
                 Text = messageText
             });
         }
-
 
         void UpdateUserStatus(UserStatus status)
         {

@@ -126,7 +126,7 @@ namespace Telepuz.ViewModels
             Loading = true;
             await Task.Delay(1500);
             // Прослушивание ответа с сервера
-            _client.Once<NicknameResponseDTO>("auth.login", (response) =>
+            _client.Once<NicknameResponseDTO>("users.create", (response) =>
             {
                 if (response.Result == (int)Results.OK)
                 {
@@ -144,7 +144,7 @@ namespace Telepuz.ViewModels
                 Nickname = Nickname
             };
 
-            _client.Request("auth.login", nicknameRequestDTO);
+            _client.Request("users.create", nicknameRequestDTO);
         }
     }
 }

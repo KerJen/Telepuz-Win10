@@ -72,7 +72,7 @@
     </Style>
 
     <Style x:Name="messagesListViewStyle" TargetType="ListView">
-        <Setter Property="Padding" Value="0,0,0,10" />
+        <Setter Property="Padding" Value="0,20,0,20" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -96,7 +96,7 @@
                 </TransitionCollection>
             </Setter.Value>
         </Setter>
-        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
         <Setter Property="SelectionMode" Value="None" />
     </Style>
 

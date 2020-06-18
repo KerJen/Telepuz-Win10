@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Windows.UI.Text.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
@@ -13,6 +7,7 @@ using GalaSoft.MvvmLight.Views;
 using Telepuz.Models.Business.Model;
 using Telepuz.Models.Business.Model.DTO;
 using Telepuz.Models.Network;
+using Timer = System.Timers.Timer;
 
 namespace Telepuz.ViewModels
 {
@@ -42,12 +37,30 @@ namespace Telepuz.ViewModels
             }
         }
 
+        bool _typing;
+        private bool Typing
+        {
+            set
+            {
+                if (!_typing && value)
+                {
+                    SendTypingStatus();
+                }
+
+                _typing = value;
+            }
+        }
+
         string _inputMessage;
         public string InputMessage
         {
             get => _inputMessage;
             set
             {
+                Typing = true;
+                timer.Stop();
+                timer.Start();
+
                 _inputMessage = value;
                 RaisePropertyChanged("InputMessage");
                 SendClick.RaiseCanExecuteChanged();
@@ -55,6 +68,8 @@ namespace Telepuz.ViewModels
         }
 
         public RelayCommand SendClick { get; }
+
+        readonly Timer timer = new Timer(2000);
 
         public ChatViewModel(INavigationService navigationService)
         {
@@ -65,19 +80,23 @@ namespace Telepuz.ViewModels
 
             _client = TelepuzWebSocketService.Client;
 
-            ListenUserChange();
+
+            timer.AutoReset = false;
+
             GetAllUsers();
+            ListenUserChange();
+            ListenUserStatus();
             ListenNewMessage();
         }
 
         void ListenUserChange()
         {
-            _client.On<UserNewUpdateDTO>("updates.user.new", (update) =>
+            _client.On<UserNewUpdateDTO>("users.created", (update) =>
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() => { Users.Add(update.NewUser); });
             });
 
-            _client.On<UserDeletedUpdateDTO>("updates.user.deleted", (update) =>
+            _client.On<UserDeletedUpdateDTO>("users.removed", (update) =>
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() => { Users.Remove(Users.First(x => x.Id == update.UserId)); });
             });
@@ -85,17 +104,33 @@ namespace Telepuz.ViewModels
 
         void GetAllUsers()
         {
-            _client.Once<UsersResponseDTO>("users.getAll", (response) =>
+            _client.Once<UsersResponseDTO>("users.get", (response) =>
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() => { Users = new ObservableCollection<User>(response.Users); });
             });
 
-            _client.Request("users.getAll");
+            _client.Request("users.get");
+        }
+
+        private void ListenUserStatus()
+        {
+            timer.Elapsed += (sender, args) =>
+            {
+                Typing = false;
+            };
+
+            _client.On<UserStatusUpdateDTO>("users.statusUpdated", (update) =>
+            {
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    Users.First(x => x.Id == update.UserId).Status = update.Status;
+                });
+            });
         }
 
         void ListenNewMessage()
         {
-            _client.On<MessageNewUpdateDTO>("updates.message.new", (update) =>
+            _client.On<MessageNewUpdateDTO>("messages.created", (update) =>
             {
                 update.Message.Yours = false;
                 update.Message.User = Users.First(x => x.Id == update.Message.UserId);
@@ -119,7 +154,7 @@ namespace Telepuz.ViewModels
             var messageText = InputMessage;
             InputMessage = "";
 
-            _client.Once<MessageSendReponseDTO>("messages.send", response =>
+            _client.Once<MessageSendReponseDTO>("messages.create", response =>
             {
                 var message = new Message()
                 {
@@ -136,9 +171,18 @@ namespace Telepuz.ViewModels
                 });
             });
 
-            _client.Request("messages.send", new MessageSendRequestDTO()
+            _client.Request("messages.create", new MessageSendRequestDTO()
             {
                 Text = messageText
+            });
+        }
+
+
+        void SendTypingStatus()
+        {
+            _client.Request("users.updateStatus", new UserUpdateStatusRequestDTO()
+            {
+                UserStatus = UserStatus.Typing
             });
         }
     }

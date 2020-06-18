@@ -15,8 +15,8 @@ namespace Telepuz.Models.Business.Model
         [Key("nickname")]
         public string Nickname { get; set; }
 
-        [IgnoreMember]
-        public string Status => "Тест";
+        [Key("status")]
+        public UserStatus Status { get; set; }
 
         [IgnoreMember]
         public string AvatarBackground

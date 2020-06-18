@@ -57,6 +57,7 @@
 
                     <converters:BooleanToVisibilityConverter x:Name="BoolToVisConverter"/>
                     <converters:BooleanToOpacityConverter x:Name="BoolToOpasConverter"/>
+                    <converters:EnumUserStatusToStringConverter x:Name="EnumUserStatusToStringConverter"/>
 
                     <local:MessageItemSelector
                         x:Key="LargeMessageItemSelector"
@@ -101,7 +102,7 @@
                                 <TextBlock Text="{Binding User.FirstLetter}" Style="{StaticResource avatarMateMessageTextStyle}" HorizontalAlignment ="Center" VerticalAlignment="Center" />
                             </Grid>
 
-                            <Border Padding ="14,7,14,7" BorderThickness="1" CornerRadius="3,16,16,16" BorderBrush="#BDBDBD" HorizontalAlignment="Left" Margin="10,0,0,0">
+                            <Border Padding ="14,7,14,7" BorderThickness="1" CornerRadius="3,16,16,16" BorderBrush="#E7E7E7" HorizontalAlignment="Left" Margin="10,0,0,0">
                                 <StackPanel>
                                     <TextBlock Text="{Binding User.Nickname}" 
                                                Foreground="{Binding User.AvatarBackground}"
@@ -204,7 +205,8 @@
 
                                                     <StackPanel VerticalAlignment="Center" Margin="18,0,0,0">
                                                         <TextBlock Text="{Binding Nickname}" Style="{StaticResource chatUserNicknameStyle}"/>
-                                                        <TextBlock Text="{Binding Status}" Style="{StaticResource chatUserStatusStyle}"/>
+                                                        <TextBlock Text="{Binding Status, Converter={StaticResource EnumUserStatusToStringConverter}}" 
+                                                                   Style="{StaticResource chatUserStatusStyle}"/>
                                                     </StackPanel>
 
                                                 </StackPanel>

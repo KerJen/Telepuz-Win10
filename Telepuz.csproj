@@ -123,6 +123,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\Converters\EnumUserStatusToStringConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\Business\Model\DTO\MessageNewUpdateDTO.cs" />
@@ -132,8 +133,11 @@
     <Compile Include="Models\Business\Model\DTO\UserDeletedUpdateDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\UserNewUpdateDTO.cs" />
     <Compile Include="Models\Business\Model\DTO\UsersResponseDTO.cs" />
+    <Compile Include="Models\Business\Model\DTO\UserStatusUpdateDTO.cs" />
+    <Compile Include="Models\Business\Model\DTO\UserUpdateStatusRequestDTO.cs" />
     <Compile Include="Models\Business\Model\Message.cs" />
     <Compile Include="Models\Business\Model\User.cs" />
+    <Compile Include="Models\Business\Model\UserStatus.cs" />
     <Compile Include="Models\Business\Results.cs" />
     <Compile Include="Models\Network\ApiOptions.cs" />
     <Compile Include="Models\Network\Callback.cs" />

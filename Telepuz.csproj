@@ -123,6 +123,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\Converters\EnumUserStatusToColorConverter.cs" />
     <Compile Include="Helpers\Converters\EnumUserStatusToStringConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />

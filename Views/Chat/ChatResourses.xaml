@@ -40,7 +40,6 @@
     </Style>
 
     <Style x:Key="chatUserStatusStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value ="#BDBDBD"/>
         <Setter Property="FontFamily" Value="/Assets/Fonts/OpenSans-Regular.ttf#Open Sans"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="TextAlignment" Value="Left"/>

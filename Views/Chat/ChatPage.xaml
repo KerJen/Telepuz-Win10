@@ -58,6 +58,8 @@
                     <converters:BooleanToVisibilityConverter x:Name="BoolToVisConverter"/>
                     <converters:BooleanToOpacityConverter x:Name="BoolToOpasConverter"/>
                     <converters:EnumUserStatusToStringConverter x:Name="EnumUserStatusToStringConverter"/>
+                    <converters:EnumUserStatusToColorConverter x:Name="EnumUserStatusToColorConverter"/>
+
 
                     <local:MessageItemSelector
                         x:Key="LargeMessageItemSelector"
@@ -206,6 +208,7 @@
                                                     <StackPanel VerticalAlignment="Center" Margin="18,0,0,0">
                                                         <TextBlock Text="{Binding Nickname}" Style="{StaticResource chatUserNicknameStyle}"/>
                                                         <TextBlock Text="{Binding Status, Converter={StaticResource EnumUserStatusToStringConverter}}" 
+                                                                   Foreground="{Binding Status, Converter={StaticResource EnumUserStatusToColorConverter}}"
                                                                    Style="{StaticResource chatUserStatusStyle}"/>
                                                     </StackPanel>
 

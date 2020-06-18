@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Threading;
+using Telepuz.Models.Business.Model;
+using Telepuz.Models.Business.Model.DTO;
 using Telepuz.Models.Network;
 
 namespace Telepuz
@@ -106,6 +108,14 @@ namespace Telepuz
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
+        void SetUserStatusAFK()
+        {
+            _client.Request("users.updateStatus", new UserUpdateStatusRequestDTO()
+            {
+                UserStatus = UserStatus.AFK
+            });
+        }
+
         /// <summary>
         /// Вызывается при приостановке выполнения приложения.  Состояние приложения сохраняется
         /// без учета информации о том, будет ли оно завершено или возобновлено с неизменным
@@ -116,7 +126,7 @@ namespace Telepuz
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Сохранить состояние приложения и остановить все фоновые операции
+            SetUserStatusAFK();
             deferral.Complete();
         }
     }

@@ -97,6 +97,12 @@ namespace Telepuz.ViewModels
             _client = TelepuzWebSocketService.Client;
 
             timer.AutoReset = false;
+        }
+
+        public void LoadData()
+        {
+            Users.Clear();
+            Messages.Clear();
 
             GetAllUsers();
             ListenApplicationEvents();
@@ -104,6 +110,7 @@ namespace Telepuz.ViewModels
             ListenUserStatus();
             ListenNewMessage();
         }
+
 
         void ListenUserChange()
         {

@@ -16,9 +16,9 @@
             <Ellipse.Resources>
                 <Storyboard x:Key="firstStoryboard" x:Name ="firstStoryboard" TargetName="first">
                     <DoubleAnimation  RepeatBehavior="Forever" Duration="0:0:0.300" To="1.4" AutoReverse="True"
-                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)"/>
+                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" />
                     <DoubleAnimation RepeatBehavior="Forever" Duration="0:0:0.300" To="1.4" AutoReverse="True"
-                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)"/>
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" />
                 </Storyboard>
             </Ellipse.Resources>
         </Ellipse>

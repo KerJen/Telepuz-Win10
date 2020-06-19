@@ -95,6 +95,7 @@ namespace Telepuz
                 }
                 // Обеспечение активности текущего окна
                 Window.Current.Activate();
+                
             }
         }
 

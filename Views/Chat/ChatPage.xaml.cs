@@ -30,5 +30,10 @@ namespace Telepuz
         {
             this.InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ((ChatViewModel) DataContext).LoadData();
+        }
     }
 }

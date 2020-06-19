@@ -29,24 +29,6 @@ namespace Telepuz.ViewModels
 
         readonly TelepuzWebSocketService _client;
 
-        public LoginViewModel(INavigationService navigationService)
-        {
-            _navigationService = navigationService;
-
-            // Инициализация делегатов нажатий
-            SloganClick = new RelayCommand(PlayAle);
-            EnterButtonClick = new RelayCommand(SendNickname, EnterButtonCheck);
-
-            _player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/ale.mp3"));
-
-            SetPhrases();
-
-            _client = TelepuzWebSocketService.Client;
-        }
-
-        public RelayCommand EnterButtonClick { get; }
-        public RelayCommand SloganClick { get; }
-
         string _phrase;
         public string Phrase
         {
@@ -107,6 +89,28 @@ namespace Telepuz.ViewModels
                     EnterButtonClick.RaiseCanExecuteChanged();
                 });
             }
+        }
+
+        public RelayCommand EnterButtonClick { get; }
+        public RelayCommand SloganClick { get; }
+
+        public LoginViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+
+            // Инициализация делегатов нажатий
+            SloganClick = new RelayCommand(PlayAle);
+            EnterButtonClick = new RelayCommand(SendNickname, EnterButtonCheck);
+
+            _player.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/ale.mp3"));
+
+            _client = TelepuzWebSocketService.Client;
+        }
+
+
+        public void LoadData()
+        {
+            SetPhrases();
         }
 
         /// <summary>

@@ -56,6 +56,7 @@ namespace Telepuz.Models.Network
 
         async void Reconnect(int timeout)
         {
+            _listenersPool.Clear();
             await Task.Delay(timeout);
 
             _client.Connect();

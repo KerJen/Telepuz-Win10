@@ -54,7 +54,7 @@ namespace Telepuz.Models.Network
         /// Десериализует поток байтов в метод обращения ответа
         /// </summary>
         /// <param name="bytes">Десериализируемые байты</param>
-        /// <exception cref="MessagePackSerializationException">Вызвается тогда, когда формат информации об ответе
+        /// <exception cref="">Вызвается тогда, когда формат информации об ответе
         /// не совпадает с форматом информации об ответе сервера</exception>
         /// <returns>Информация об ответе</returns>
         public static string DeserializeMethodName(byte[] bytes)

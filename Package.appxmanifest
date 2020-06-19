@@ -9,7 +9,7 @@
   <Identity
     Name="cf8f9b03-7c1d-45db-ad2d-0cf702723d03"
     Publisher="CN=kerje"
-    Version="0.0.1.0" />
+    Version="0.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="cf8f9b03-7c1d-45db-ad2d-0cf702723d03" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -47,6 +47,6 @@
   </Applications>
 
   <Capabilities>
-    <Capability Name="internetClient" />
+    <Capability Name="internetClient"/>
   </Capabilities>
 </Package>

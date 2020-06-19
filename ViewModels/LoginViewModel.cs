@@ -110,7 +110,7 @@ namespace Telepuz.ViewModels
 
         public void LoadData()
         {
-            SetPhrases();
+            //TODO: load
         }
 
         /// <summary>
@@ -126,10 +126,9 @@ namespace Telepuz.ViewModels
         /// <summary>
         /// Отправка запроса с никнеймом на сервер
         /// </summary>
-        async void SendNickname()
+        void SendNickname()
         {
             Loading = true;
-            await Task.Delay(1500);
             // Прослушивание ответа с сервера
             _client.Once<NicknameResponseDTO>("users.create", (response) =>
             {
@@ -137,7 +136,6 @@ namespace Telepuz.ViewModels
                 {
                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
-                       
                         _navigationService.NavigateTo("Chat");
                         Messenger.Default.Send<string>(response.UserId);
                         Loading = false;

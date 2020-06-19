@@ -2,11 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Telepuz.Helpers;
 using Telepuz.Models.Business.Model;
 using Telepuz.Models.Business.Model.DTO;
@@ -80,6 +83,8 @@ namespace Telepuz.ViewModels
         readonly Timer timer = new Timer(2000);
 
         string _user_id;
+
+        private bool isWindowActive;
 
         public ChatViewModel(INavigationService navigationService)
         {
@@ -163,9 +168,44 @@ namespace Telepuz.ViewModels
                     update.Message.UserInfoVisible = true;
                 }
 
-                DispatcherHelper.CheckBeginInvokeOnUI(() => { Messages.Add(update.Message); });
+                var nickname = Users.First(x => x.Id == update.Message.UserId).Nickname;
+
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    if(!isWindowActive)
+                        MakeNotification(nickname, update.Message.Text);
+                    Messages.Add(update.Message);
+                });
             });
         }
+
+        void MakeNotification(string nickname, string message)
+        {
+            var toastContent = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = $"{nickname} пишет"
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = message
+                            }
+                        }
+                    }
+                }
+            };
+
+            var toastNotif = new ToastNotification(toastContent.GetXml());
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+        }
+
 
         bool InputMessageCheck()
         {
@@ -181,12 +221,14 @@ namespace Telepuz.ViewModels
             {
                 var message = new Message()
                 {
-                    Id = "e",
+                    Id = "1",
                     Text = messageText,
                     User = null,
-                    UserId = "ff",
+                    UserId = _user_id,
                     Yours = true
                 };
+
+
 
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
@@ -212,16 +254,20 @@ namespace Telepuz.ViewModels
             });
         }
 
-        private void ListenApplicationEvents()
+        void ListenApplicationEvents()
         {
-            Application.Current.Suspending += (sender, e) =>
+            Window.Current.CoreWindow.Activated += (sender, args) =>
             {
-                UpdateUserStatus(UserStatus.AFK);
-            };
-
-            Application.Current.Resuming += (sender, e) =>
-            {
-                UpdateUserStatus(UserStatus.Online);
+                if (args.WindowActivationState == CoreWindowActivationState.Deactivated)
+                {
+                    isWindowActive = false;
+                    UpdateUserStatus(UserStatus.AFK);
+                }
+                else
+                {
+                    isWindowActive = true;
+                    UpdateUserStatus(UserStatus.Online);
+                }
             };
         }
     }

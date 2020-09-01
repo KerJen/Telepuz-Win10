@@ -1,4 +1,4 @@
-![Telepuz](HeaderTelepuz.png)
+![Telepuz](HeaderTelepuz1.png)
 
 ## What is Telepuz?
 Telepuz is one public chat room where you can chat with anyone and about anything.

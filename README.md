@@ -9,7 +9,7 @@ The chat was created for educational and entertainment purposes
 ## Using code
 Copy, modify, refine and take useful practices from the app
 
-## Стек технологий
+## Skills
 Telepuz uses many different technologies and practices that are used to create large and high-quality Desktop applications:
 * **C#** - programming language.
 * **UWP (Universal Windows Program)** - the technology for creating Windows 10 apps, easily publish in Windows Store.

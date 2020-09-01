@@ -1,46 +1,45 @@
 ![Telepuz](HeaderTelepuz.png)
 
-## Что такое Telepuz
-Telepuz - это одна публичная комната-чат, в которой можно болтать с кем угодно и о чем угодно.
+## What is Telepuz?
+Telepuz is one public chat room where you can chat with anyone and about anything.
 
-## Для чего разрабатывалось? 
-Чат создавался в учебных целях, чтобы научиться реализовывать Desktop-приложения на UWP.
+## What was it developed for?
+The chat was created for educational and entertainment purposes
 
-## Использование кода
-Копируйте, изменяйте, дорабатывайте и берите полезные практики из приложения, мне не жалко :)
+## Using code
+Copy, modify, refine and take useful practices from the app
 
 ## Стек технологий
-В Telepuz применено много разных технологий, которые используются для создание больших и качественных Desktop-приложений:
-* **C#** - язык программирования.
-* **UWP (Universal Windows Program)** - технология для создания Windows 10 приложений, легко публикуются в Windows store.
-* **MVVM (Model ViewModel Model)** - архитектура, на которой строится Telepuz. Позволяет разграничивать бизнес-логику и дизайн.
-* **WebSocket** - протокол передачи данных по TCP, позволяет передавать данные в live-режиме, не делая запроса на сервер.
-* **MessagePack** - формат обмена данными между клиентом и сервером. Был выбран из-за ряды преимуществ: скорость сериализации/десериализации, меньший объем сериализованного объекта, чем у JSON
+Telepuz uses many different technologies and practices that are used to create large and high-quality Desktop applications:
+* **C#** - programming language.
+* **UWP (Universal Windows Program)** - the technology for creating Windows 10 apps, easily publish in Windows Store.
+* **MVVM (Model View ViewModel)** - the architecture that Telepuz is built on. Allows you to differentiate between business logic and design;
+* **WebSocket** - the TCP data transfer Protocol allows you to transmit data in live mode without making a request to the server;
+* **MessagePack** - format for data exchange between the client and the server. It was chosen because of a number of advantages: speed of serialization/deserialization, smaller volume of serialized object than JSON;
 
-## Краткое описание работы программы
-### Обмен данными между клиентом и сервером
-Поверх WebSocket был написан **мини-протокол**, который вводит понятие метода и данных, отправляемых на этот метод. Так как WebSocket передает только байты, потребовалось разработать свой способ их сериализовывать.
+## Brief description of the program
+### Data exchange between the client and the server
+A **mini-protocol** was written on top of WebSocket, which introduces the concept of a method and the data sent to this method. Since WebSocket only transmits bytes, we had to develop our own way to serialize them.
 
-* **Пул прослушиваемых методов** - специальный словарь, в который записываются коллбеки тех методов, которые мы хотим прослушать, когда реализовываем бизнес-логику.
+* **Pool of listened methods** - a special dictionary that records callbacks of the methods that we want to listen to when implementing business logic.
+For example:
 
-Пример:
+ `client.on("user.create", data)` - start listening for the method, placing it in the pool of all methods. When the server sends data to 'user.create', the mini-Protocol will find it in the dictionary and call a callback, sending a response from the server to it.
 
- `client.On("user.create", data)` - запускаем прослушивание метода, помещая его в пул всех методов. Когда сервер пришлет на `user.create` данные, мини-протокол найдет его в словаре и вызовет коллбек, отправляя в него ответ от сервера.
-
- * **Сериализатор MessagePack** - Был создан отдельный класс для сериализации/десериализации MsgPack, умеющий работать с пулом методов, а также форматом запросов/ответов, утвержденным на сервере.
+ * **MsgPack serializator** -  Was created the class for MsgPack serialization/deserialization that can work with the pool of methods and the form of requests/responses that server approved. 
 
 ---
 
-## Кто разрабатывал?
+## Who developed it?
 
-Над приложением трудились два человека:
+Two people worked on the app:
 
-* [KerJen](https://github.com/KerJen) - разработчик клиентской части Telepuz.
-* [undefined](https://github.com/undefined7887) - разработчик серверной части (Backend) Telepuz.
+* [KerJen](https://github.com/KerJen) - UWP-developer of Telepuz.
+* [undefined](https://github.com/undefined7887) - backend-end developer of Telepuz.
 
-## Полезные ссылки
-[Backend](https://github.com/undefined7887/telepuz-backend) - репозиторий серверной части на языке Go
+## Useful links
+[Backend](https://github.com/undefined7887/telepuz-backend) - repository of the server part in Golang
 
-## Контакты
-* [KerJen - Антон Янкин](https://vk.com/kerjen)
-* [undefined - Ярослав Евстафьев](https://vk.com/undefined7887)
+## Contacts
+* KerJen - Anton Iankin - @KerJen (Telegram)
+* undefined - Iaroslav Evstafiev - @undefined7887 (Telegram)

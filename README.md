@@ -35,7 +35,7 @@ For example:
 Two people worked on the app:
 
 * [KerJen](https://github.com/KerJen) - UWP-developer of Telepuz.
-* [undefined](https://github.com/undefined7887) - backend-end developer of Telepuz.
+* [undefined](https://github.com/undefined7887) - backend & frontend developer of Telepuz.
 
 ## Useful links
 [Backend](https://github.com/undefined7887/telepuz-backend) - repository of the server part in Golang
